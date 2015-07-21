@@ -1,0 +1,10 @@
+#include "Pods-ReactiveCocoa.xcconfig"
+CONFIGURATION_BUILD_DIR = $PODS_FRAMEWORK_BUILD_PATH
+FRAMEWORK_SEARCH_PATHS = "$PODS_FRAMEWORK_BUILD_PATH"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/ReactiveCocoa" "${PODS_ROOT}/Headers/Private/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Box" "${PODS_ROOT}/Headers/Public/CKComponentFadeTransition" "${PODS_ROOT}/Headers/Public/ComponentKit" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/FXReachability" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/Keys" "${PODS_ROOT}/Headers/Public/ReactiveCocoa" "${PODS_ROOT}/Headers/Public/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/Public/Result"
+OTHER_LDFLAGS = ${PODS_REACTIVECOCOA_OTHER_LDFLAGS} -ObjC
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES
