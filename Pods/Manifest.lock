@@ -1,0 +1,52 @@
+PODS:
+  - Box (1.2.2)
+  - CKComponentFadeTransition (0.0.1):
+    - ComponentKit
+  - ComponentKit (0.11)
+  - Crashlytics (3.0.11)
+  - Fabric (1.2.8):
+    - Fabric/Base (= 1.2.8)
+  - Fabric/Base (1.2.8)
+  - FXReachability (1.3.1)
+  - Keys (1.0.0)
+  - ReactiveCocoa (3.0-beta.6):
+    - ReactiveCocoa/UI (= 3.0-beta.6)
+    - Result (~> 0.4)
+  - ReactiveCocoa/Core (3.0-beta.6):
+    - ReactiveCocoa/no-arc
+    - Result (~> 0.4)
+  - ReactiveCocoa/no-arc (3.0-beta.6):
+    - Result (~> 0.4)
+  - ReactiveCocoa/UI (3.0-beta.6):
+    - ReactiveCocoa/Core
+    - Result (~> 0.4)
+  - Result (0.4.4):
+    - Box (~> 1.2)
+
+DEPENDENCIES:
+  - CKComponentFadeTransition
+  - ComponentKit (= 0.11)
+  - Crashlytics
+  - Fabric
+  - FXReachability
+  - Keys (from `Pods/CocoaPodsKeys`)
+  - ReactiveCocoa (from `https://gist.githubusercontent.com/MarcoSero/ed7582acfe0036bf88e8/raw/63acc60dde84ecb8026e16c761613206a699b430/ReactiveCocoa.podspec.json`)
+
+EXTERNAL SOURCES:
+  Keys:
+    :path: Pods/CocoaPodsKeys
+  ReactiveCocoa:
+    :podspec: https://gist.githubusercontent.com/MarcoSero/ed7582acfe0036bf88e8/raw/63acc60dde84ecb8026e16c761613206a699b430/ReactiveCocoa.podspec.json
+
+SPEC CHECKSUMS:
+  Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
+  CKComponentFadeTransition: 12bb3409ab8161bd7287b43e982cebabe2b5ac1c
+  ComponentKit: 66ee65df1df9983b689cb7df15d9fe59a1a03903
+  Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
+  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
+  FXReachability: 1d9a83617474f2a4e1b53c11a13ec4337428c126
+  Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
+  ReactiveCocoa: 10ad2ee5332928fccae088170696934d79eb0476
+  Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
+
+COCOAPODS: 0.37.2
