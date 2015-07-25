@@ -72,19 +72,19 @@
             }
           }
           insets:UIEdgeInsetsMake(1, 5, 0, 5)
-          component:YNLabelComponent(points, [UIColor whiteColor], [theme heavyFontOfSize:ThemeFontSizeSmall])],
+          component:YNLabelComponent(points, [UIColor whiteColor], [theme heavyFontOfSize:ThemeFontSizeTiny])],
          .spacingAfter = 7
        },
        {
-         YNLabelComponent(@"by", theme.greyColor, [theme romanFontOfSize:ThemeFontSizeSmall]),
+         YNLabelComponent(@"by", theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny]),
          .spacingAfter = 2
        },
        {
-         YNLabelComponent(post.username, theme.greyColor, [theme heavyFontOfSize:ThemeFontSizeSmall]),
+         YNLabelComponent(post.username, theme.greyColor, [theme heavyFontOfSize:ThemeFontSizeTiny]),
          .spacingAfter = 7
        },
        {
-         YNLabelComponent(post.timeString, theme.greyColor, [theme romanFontOfSize:ThemeFontSizeSmall])
+         YNLabelComponent(post.timeString, theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny])
        }
      }];
   }
