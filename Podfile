@@ -14,7 +14,7 @@ link_with 'HackerNews', 'HackerNewsTests'
 
 pod 'ComponentKit', '0.11'
 pod 'CKComponentFadeTransition'
-pod 'ReactiveCocoa', :podspec => 'https://gist.githubusercontent.com/MarcoSero/ed7582acfe0036bf88e8/raw/63acc60dde84ecb8026e16c761613206a699b430/ReactiveCocoa.podspec.json'
+pod 'ReactiveCocoa', '3.0-RC.1'
 pod 'FXReachability'
 pod 'Fabric'
 pod 'Crashlytics'
