@@ -73,7 +73,7 @@
           }
           insets:UIEdgeInsetsMake(1, 5, 0, 5)
           component:YNLabelComponent(points, [UIColor whiteColor], [theme heavyFontOfSize:ThemeFontSizeTiny])],
-         .spacingAfter = 7
+         .spacingAfter = 5
        },
        {
          YNLabelComponent(@"by", theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny]),
@@ -81,7 +81,7 @@
        },
        {
          YNLabelComponent(post.username, theme.greyColor, [theme heavyFontOfSize:ThemeFontSizeTiny]),
-         .spacingAfter = 7
+         .spacingAfter = 6
        },
        {
          YNLabelComponent(post.timeString, theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny])
