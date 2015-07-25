@@ -54,7 +54,9 @@
     pointsAndAuthorComponent =
     [CKStackLayoutComponent
      newWithView:{}
-     size:{}
+     size:{
+       .height = 16
+     }
      style:{
        .direction = CKStackLayoutDirectionHorizontal,
        .alignItems = CKStackLayoutAlignItemsCenter
@@ -66,10 +68,10 @@
             [UIView class],
             {
               {@selector(setBackgroundColor:), theme.orangeColor},
-              {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10}
+              {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @8}
             }
           }
-          insets:UIEdgeInsetsMake(3, 7, 2, 7)
+          insets:UIEdgeInsetsMake(1, 5, 0, 5)
           component:YNLabelComponent(points, [UIColor whiteColor], [theme heavyFontOfSize:ThemeFontSizeSmall])],
          .spacingAfter = 7
        },
@@ -89,7 +91,7 @@
   
   return [super newWithComponent:
           [CKInsetComponent
-           newWithInsets:UIEdgeInsetsMake(15, 15, 15, 15)
+           newWithInsets:UIEdgeInsetsMake(16, 16, 16, 16)
            component:
            [CKStackLayoutComponent
             newWithView:{}
