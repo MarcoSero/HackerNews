@@ -38,6 +38,8 @@ extension String {
 
 let hrefRegex = NSRegularExpression(pattern: "<a[^>]+href=\"(.*?)\"[^>]*>.*?</a>", options: .CaseInsensitive, error: nil)!
 
+let divRegex = NSRegularExpression(pattern: "<div.*?>(.|\n)*?</div>", options: .CaseInsensitive, error: nil)!
+
 let htmlTagsRegex = NSRegularExpression(pattern: "<[^>]*>", options: .CaseInsensitive, error: nil)!
 
 let asciiHTMLMap = [
@@ -56,11 +58,16 @@ extension String {
     
     func fromHackerNewsHTML() -> String {
         return self
+            .removeDivs()
             .replaceParagraphsWithNewLines()
             .extractHrefs()
             .removeHTMLTags()
             .replaceHTMLCharacters()
             .trimCrap()
+    }
+    
+    func removeDivs() -> String {
+        return divRegex.stringByReplacingMatchesInString(self, options: .allZeros, range: NSMakeRange(0, count(self)), withTemplate: "")
     }
     
     func replaceParagraphsWithNewLines() -> String {

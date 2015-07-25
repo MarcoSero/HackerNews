@@ -28,6 +28,11 @@ class HTMLStringTests: XCTestCase {
         XCTAssertEqual(htmlString.removeHTMLTags(), content)
     }
     
+    func testThatRemovesDivs() {
+        let htmlString = "<div class=\"coool\"><a href=\"nowhere\">cool!</a></div>"
+        XCTAssertEqual(htmlString.removeDivs(), "")
+    }
+ 
     func testThatReplacesHTMLCharacters() {
         let actualContent = "marco<>marco&sero.com"
         let htmlString = "marco&lt;&gt;marco&amp;sero.com"
