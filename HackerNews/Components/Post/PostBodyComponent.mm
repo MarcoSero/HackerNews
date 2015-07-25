@@ -40,7 +40,10 @@
           scenePath:nil
           size:{ .width = context.faviconDownloader.targetSize, .height = context.faviconDownloader.targetSize }
           options:{}
-          attributes:{}
+          attributes:{
+              {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @2},
+              {CKComponentViewAttribute::LayerAttribute(@selector(setMasksToBounds:)), @YES}
+          }
           fadeTransition:{.duration = 0.3}]
        },
        {
