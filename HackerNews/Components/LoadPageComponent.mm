@@ -23,7 +23,7 @@
              newWithView:{
                [SmallLambdaLoadingView class]
              }
-             size:{ .width = 28, .height = 28 }]]
+             size:{ .width = 18, .height = 28 }]]
            size:{}]];
 }
 

@@ -2,8 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "Icon_Nav_Share_White.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

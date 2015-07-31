@@ -39,7 +39,9 @@
           imageDownloader:context.faviconDownloader
           scenePath:nil
           size:{ .width = context.faviconDownloader.targetSize, .height = context.faviconDownloader.targetSize }
-          options:{}
+          options:{
+            .defaultImage = [UIImage imageNamed:@"Icon_FaviconDefault"]
+          }
           attributes:{
               {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @2},
               {CKComponentViewAttribute::LayerAttribute(@selector(setMasksToBounds:)), @YES}
