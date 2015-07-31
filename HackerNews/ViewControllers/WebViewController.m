@@ -103,6 +103,7 @@
 {
   self.toolbar = [[UIToolbar alloc] init];
   self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
+  self.toolbar.backgroundColor = self.theme.whiteColor;
 
   CGSize buttonsSize = (CGSize){.width = 16, .height = 22};
   
@@ -229,7 +230,7 @@
 
 - (UIColor *)barTintColor
 {
-  return [UIColor whiteColor];
+  return self.theme.whiteColor;
 }
 
 - (UIColor *)tintColor

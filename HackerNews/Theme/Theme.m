@@ -36,6 +36,11 @@
   return [UIColor colorwithHex:0x888888];
 }
 
+- (UIColor *)whiteColor
+{
+  return [UIColor colorwithHex:0xFCFCFC];
+}
+
 #pragma mark - Fonts
 
 - (UIFont *)lightFontOfSize:(ThemeFontSize)size
