@@ -39,8 +39,13 @@
           imageDownloader:context.faviconDownloader
           scenePath:nil
           size:{ .width = context.faviconDownloader.targetSize, .height = context.faviconDownloader.targetSize }
-          options:{}
-          attributes:{}
+          options:{
+            .defaultImage = [UIImage imageNamed:@"Icon_FaviconDefault"]
+          }
+          attributes:{
+              {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @2},
+              {CKComponentViewAttribute::LayerAttribute(@selector(setMasksToBounds:)), @YES}
+          }
           fadeTransition:{.duration = 0.3}]
        },
        {
@@ -54,7 +59,9 @@
     pointsAndAuthorComponent =
     [CKStackLayoutComponent
      newWithView:{}
-     size:{}
+     size:{
+       .height = 16
+     }
      style:{
        .direction = CKStackLayoutDirectionHorizontal,
        .alignItems = CKStackLayoutAlignItemsCenter
@@ -66,30 +73,30 @@
             [UIView class],
             {
               {@selector(setBackgroundColor:), theme.orangeColor},
-              {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10}
+              {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @8}
             }
           }
-          insets:UIEdgeInsetsMake(3, 7, 2, 7)
-          component:YNLabelComponent(points, [UIColor whiteColor], [theme heavyFontOfSize:ThemeFontSizeSmall])],
-         .spacingAfter = 7
+          insets:UIEdgeInsetsMake(1, 5, 0, 5)
+          component:YNLabelComponent(points, [UIColor whiteColor], [theme heavyFontOfSize:ThemeFontSizeTiny])],
+         .spacingAfter = 5
        },
        {
-         YNLabelComponent(@"by", theme.greyColor, [theme romanFontOfSize:ThemeFontSizeSmall]),
+         YNLabelComponent(@"by", theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny]),
          .spacingAfter = 2
        },
        {
-         YNLabelComponent(post.username, theme.greyColor, [theme heavyFontOfSize:ThemeFontSizeSmall]),
-         .spacingAfter = 7
+         YNLabelComponent(post.username, theme.greyColor, [theme heavyFontOfSize:ThemeFontSizeTiny]),
+         .spacingAfter = 6
        },
        {
-         YNLabelComponent(post.timeString, theme.greyColor, [theme romanFontOfSize:ThemeFontSizeSmall])
+         YNLabelComponent(post.timeString, theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny])
        }
      }];
   }
   
   return [super newWithComponent:
           [CKInsetComponent
-           newWithInsets:UIEdgeInsetsMake(15, 15, 15, 15)
+           newWithInsets:UIEdgeInsetsMake(16, 16, 16, 16)
            component:
            [CKStackLayoutComponent
             newWithView:{}

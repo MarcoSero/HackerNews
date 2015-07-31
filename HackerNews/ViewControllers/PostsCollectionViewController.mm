@@ -98,7 +98,7 @@
   self.navigationItem.rightBarButtonItem = [[LabelImageBarButtonItem alloc]
                                             initWithTitle:[Post prettyStringForType:PostTypePopular]
                                             image:[UIImage imageNamed:@"Icon_Nav_FilterArrow"]
-                                            font:[self.theme heavyFontOfSize:ThemeFontSizeMedium]];;
+                                            font:[self.theme heavyFontOfSize:ThemeFontSizeSmall]];;
   @weakify(self)
   
   // presentation

@@ -72,7 +72,7 @@ static CGFloat const firstLetterLabelSize = 40;
 - (void)setupViewsWithViewModel:(UserInfoDataProvider *)viewModel theme:(Theme *)theme
 {
   UIColor *const separatorsColor = [theme.greyColor colorWithAlphaComponent:.15f];
-  self.backgroundColor = [UIColor colorWithWhite:0.6 alpha:0.5];
+  self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
   _containerView = [[UIView alloc] init];
   _containerView.translatesAutoresizingMaskIntoConstraints = NO;
   _containerView.backgroundColor = [UIColor whiteColor];
@@ -107,7 +107,7 @@ static CGFloat const firstLetterLabelSize = 40;
   _createdLabel = [[UILabel alloc] init];
   _createdLabel.translatesAutoresizingMaskIntoConstraints = NO;
   _createdLabel.textColor = theme.greyColor;
-  _createdLabel.font = [theme romanFontOfSize:ThemeFontSizeMedium];
+  _createdLabel.font = [theme romanFontOfSize:ThemeFontSizeSmall];
   _createdLabel.text = @"Created";
   _createdLabel.textAlignment = NSTextAlignmentCenter;
   [_containerView addSubview:_createdLabel];
@@ -115,7 +115,7 @@ static CGFloat const firstLetterLabelSize = 40;
   _karmaLabel = [[UILabel alloc] init];
   _karmaLabel.translatesAutoresizingMaskIntoConstraints = NO;
   _karmaLabel.textColor = theme.greyColor;
-  _karmaLabel.font = [theme romanFontOfSize:ThemeFontSizeMedium];
+  _karmaLabel.font = [theme romanFontOfSize:ThemeFontSizeSmall];
   _karmaLabel.text = @"Karma";
   _karmaLabel.textAlignment = NSTextAlignmentCenter;
   [_containerView addSubview:_karmaLabel];
@@ -168,14 +168,14 @@ static CGFloat const firstLetterLabelSize = 40;
   
   [_containerView addVisualConstraints:@"V:|-firstLetterLabelYPosition-[_firstLetterLabel(firstLetterLabelSize)]-10-[_usernameLabel]-10-[_createdLabel]-3-[_createdValueLabel]-16-[_horizontalSeparator(1)]-16-[_aboutLabel(<=maxAboutLabelHeight)]-16-|" metrics:metrics views:views];
   
-  [_containerView addVisualConstraints:@"V:|-11-[_closeButton(22)]" views:views];
-  [_containerView addVisualConstraints:@"H:|-11-[_closeButton(22)]" views:views];
+  [_containerView addVisualConstraints:@"V:|-5-[_closeButton(22)]" views:views];
+  [_containerView addVisualConstraints:@"H:|-5-[_closeButton(22)]" views:views];
   [_containerView addVisualConstraints:@"H:|-0-[_horizontalSeparator]-0-|" views:views];
   
   [_containerView addVisualConstraints:@"H:[_firstLetterLabel(firstLetterLabelSize)]" metrics:metrics views:views];
   [_containerView addVisualConstraints:@"H:|-0-[_createdLabel]-0-[verticalSeparator(1)]-0-[_karmaLabel(==_createdLabel)]-0-|" metrics:metrics views:views];
   [_containerView addVisualConstraints:@"H:|-0-[_createdValueLabel]-0-[verticalSeparator]-0-[_karmaValueLabel(==_createdValueLabel)]-0-|" metrics:metrics views:views];
-  [_containerView addVisualConstraints:@"H:|-28-[_aboutLabel]-28-|" metrics:metrics views:views];
+  [_containerView addVisualConstraints:@"H:|-16-[_aboutLabel]-16-|" metrics:metrics views:views];
   
   // center stuff
   [_containerView addConstraint:[NSLayoutConstraint
@@ -217,7 +217,7 @@ static CGFloat const firstLetterLabelSize = 40;
 {
   [super layoutSubviews];
   
-  self.containerView.layer.cornerRadius = 5;
+  self.containerView.layer.cornerRadius = 3;
   self.firstLetterLabel.clipsToBounds = YES;
   self.firstLetterLabel.layer.cornerRadius = firstLetterLabelSize / 2;
 }

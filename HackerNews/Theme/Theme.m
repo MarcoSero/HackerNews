@@ -23,7 +23,7 @@
 
 - (UIColor *)orangeColor
 {
-  return [UIColor colorwithHex:0xFF6C47];
+  return [UIColor colorwithHex:0xFF5D3D];
 }
 
 - (UIColor *)blackColor
@@ -34,6 +34,11 @@
 - (UIColor *)greyColor
 {
   return [UIColor colorwithHex:0x888888];
+}
+
+- (UIColor *)whiteColor
+{
+  return [UIColor colorwithHex:0xFCFCFC];
 }
 
 #pragma mark - Fonts

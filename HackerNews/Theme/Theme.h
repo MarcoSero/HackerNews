@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, ThemeFontSize) {
 - (UIColor *)orangeColor;
 - (UIColor *)blackColor;
 - (UIColor *)greyColor;
+- (UIColor *)whiteColor;
 
 - (UIFont *)lightFontOfSize:(ThemeFontSize)size;
 - (UIFont *)romanFontOfSize:(ThemeFontSize)size;

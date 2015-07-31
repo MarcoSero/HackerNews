@@ -1,22 +1,7 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "fill",
-          "width" : 1,
-          "height" : 1
-        },
-        "capInsets" : {
-          "bottom" : 5,
-          "top" : 5,
-          "right" : 5,
-          "left" : 5
-        }
-      },
       "idiom" : "universal",
-      "filename" : "LevelBg_01.png",
       "scale" : "1x"
     },
     {

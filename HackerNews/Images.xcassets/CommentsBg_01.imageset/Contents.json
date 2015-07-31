@@ -1,22 +1,7 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "fill",
-          "width" : 1,
-          "height" : 1
-        },
-        "capInsets" : {
-          "bottom" : 16,
-          "top" : 15,
-          "right" : 16,
-          "left" : 15
-        }
-      },
       "idiom" : "universal",
-      "filename" : "CommentsBg_01.png",
       "scale" : "1x"
     },
     {
