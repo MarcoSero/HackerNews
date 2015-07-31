@@ -29,12 +29,14 @@
 
 - (void)setupView
 {
-  self.backgroundColor = [UIColor colorWithWhite:0.95 alpha:0.5];
+//  self.backgroundColor = [UIColor colorWithWhite:0.95 alpha:0.5];
+  self.backgroundColor = [UIColor clearColor];
   
   CGFloat const roundedViewSide = 150;
   self.roundedView = [[UIView alloc] initWithFrame:(CGRect){.origin = CGPointZero, .size.width = roundedViewSide, .size.height = roundedViewSide}];
   self.roundedView.center = self.center;
-  self.roundedView.backgroundColor = [UIColor whiteColor];
+//  self.roundedView.backgroundColor = [UIColor whiteColor];
+  self.roundedView.backgroundColor = [UIColor clearColor];
   self.roundedView.layer.cornerRadius = floorf(roundedViewSide / 2);
   [self addSubview:self.roundedView];
   
