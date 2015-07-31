@@ -23,7 +23,7 @@
 
 - (UIColor *)orangeColor
 {
-  return [UIColor colorwithHex:0xFF6C47];
+  return [UIColor colorwithHex:0xFF5D3D];
 }
 
 - (UIColor *)blackColor
