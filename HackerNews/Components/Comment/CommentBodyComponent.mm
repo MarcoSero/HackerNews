@@ -93,13 +93,13 @@
                     [CKCenterLayoutComponent
                      newWithCenteringOptions:CKCenterLayoutComponentCenteringXY
                      sizingOptions:{}
-                     child:YNLabelComponent(avatarInitial, avatarInitialColor, [context.theme heavyFontOfSize:ThemeFontSizeMedium])
+                     child:YNLabelComponent(avatarInitial, avatarInitialColor, [context.theme heavyFontOfSize:ThemeFontSizeTiny])
                      size:{.width = 24, .height = 24}]
                     background:
                     [CKImageComponent newWithImage:avatarImage]]
                  },
                  {
-                   YNLabelComponent(comment.username, usernameColor, [context.theme heavyFontOfSize:ThemeFontSizeSmall])
+                   YNLabelComponent(comment.username, usernameColor, [context.theme heavyFontOfSize:ThemeFontSizeTiny])
                  }
                }],
               .alignSelf = CKStackLayoutAlignSelfStretch
@@ -109,7 +109,7 @@
               .flexGrow = YES
             },
             {
-              YNLabelComponent(comment.timeString, dateColor, [context.theme romanFontOfSize:ThemeFontSizeSmall]),
+              YNLabelComponent(comment.timeString, dateColor, [context.theme romanFontOfSize:ThemeFontSizeTiny]),
               .alignSelf = CKStackLayoutAlignSelfStretch
             }
           }],
