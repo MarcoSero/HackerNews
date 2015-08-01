@@ -99,18 +99,16 @@
                     [CKImageComponent newWithImage:avatarImage]]
                  },
                  {
-                   YNLabelComponent(comment.username, usernameColor, [context.theme heavyFontOfSize:ThemeFontSizeTiny])
+                   [CKStackLayoutComponent
+                    newWithView:{}
+                    size:{}
+                    style:{}
+                    children:{
+                      { YNLabelComponent(comment.username, usernameColor, [context.theme heavyFontOfSize:ThemeFontSizeTiny]) },
+                      { YNLabelComponent(comment.timeString, dateColor, [context.theme romanFontOfSize:ThemeFontSizeTiny]) }
+                    }]
                  }
-               }],
-              .alignSelf = CKStackLayoutAlignSelfStretch
-            },
-            {
-              [CKComponent new],
-              .flexGrow = YES
-            },
-            {
-              YNLabelComponent(comment.timeString, dateColor, [context.theme romanFontOfSize:ThemeFontSizeTiny]),
-              .alignSelf = CKStackLayoutAlignSelfStretch
+               }]
             }
           }],
          .alignSelf = CKStackLayoutAlignSelfStretch,
