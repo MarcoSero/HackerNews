@@ -10,6 +10,7 @@
 #import "Theme.h"
 #import "GenericContext.h"
 #import "ComponentsHelpers.h"
+#import "Post+ReadState.h"
 #import <ComponentKit/ComponentKit.h>
 #import <CKComponentFadeTransition/CKNetworkImageComponent+ImageFade.h>
 #import <HackerNews-Swift.h>
@@ -49,11 +50,12 @@
           fadeTransition:{.duration = 0.3}]
        },
        {
-         YNLabelComponent(post.domain, theme.blackColor, [theme romanFontOfSize:ThemeFontSizeMedium])
+         YNLabelComponent(post.domain, [theme.blackColor colorWithAlphaComponent:(post.read) ? .8f : 1], [theme romanFontOfSize:ThemeFontSizeMedium])
        }
      }];
   }
   
+  UIColor *greyColor = [theme.greyColor colorWithAlphaComponent:(post.read) ? .8f : 1];
   CKComponent *pointsAndAuthorComponent = nil;
   if (post.type != PostTypeJobs) {
     pointsAndAuthorComponent =
@@ -81,15 +83,15 @@
          .spacingAfter = 5
        },
        {
-         YNLabelComponent(@"by", theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny]),
+         YNLabelComponent(@"by", greyColor, [theme romanFontOfSize:ThemeFontSizeTiny]),
          .spacingAfter = 2
        },
        {
-         YNLabelComponent(post.username, theme.greyColor, [theme heavyFontOfSize:ThemeFontSizeTiny]),
+         YNLabelComponent(post.username, greyColor, [theme heavyFontOfSize:ThemeFontSizeTiny]),
          .spacingAfter = 6
        },
        {
-         YNLabelComponent(post.timeString, theme.greyColor, [theme romanFontOfSize:ThemeFontSizeTiny])
+         YNLabelComponent(post.timeString, greyColor, [theme romanFontOfSize:ThemeFontSizeTiny])
        }
      }];
   }
@@ -106,7 +108,7 @@
             }
             children:{
               {
-                YNLabelComponent(post.title, theme.blackColor, [theme lightFontOfSize:ThemeFontSizeHuge])
+                YNLabelComponent(post.title, [theme.blackColor colorWithAlphaComponent:(post.read) ? .8f : 1], [theme lightFontOfSize:ThemeFontSizeHuge])
               },
               {
                 domainComponent
@@ -114,8 +116,7 @@
               {
                 pointsAndAuthorComponent
               }
-            }]
-           ]];
+            }]]];
 }
 
 @end

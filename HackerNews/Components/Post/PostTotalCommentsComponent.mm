@@ -30,9 +30,7 @@
    newWithView:
    {
      [UIView class],
-     { {@selector(setBackgroundColor:), [UIColor whiteColor]},
-       {CKComponentTapGestureAttribute(@selector(didTap))}
-     }
+     { {CKComponentTapGestureAttribute(@selector(didTap))} }
    }
    component:
    [CKCenterLayoutComponent

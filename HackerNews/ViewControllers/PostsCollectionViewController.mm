@@ -23,6 +23,7 @@
 #import "LoadPageComponent.h"
 #import <HackerNews-Swift.h>
 #import "PostsDataProvider.h"
+#import "Post+ReadState.h"
 
 @interface PostsCollectionViewController () <CommentsTotalComponentDelegate>
 @property (nonatomic, strong) Theme *theme;
@@ -150,6 +151,8 @@
   
   WebViewController *webViewController = [[WebViewController alloc] initWithPost:post client:self.client theme:self.theme];
   [self.navigationController pushViewController:webViewController animated:YES];
+  
+  [self.dataProvider markPostAsRead:post collectionView:collectionView atIndexPath:indexPath];
 }
 
 #pragma mark - CommentsTotalComponentDelegate
