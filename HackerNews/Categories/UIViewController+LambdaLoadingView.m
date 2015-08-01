@@ -23,7 +23,7 @@
   }
   
   CGRect frame = [UIScreen mainScreen].bounds;
-  frame.size.height -= 64;
+  frame.origin.y -= 64;
   self.loadingView = [[MainLambdaLoadingView alloc] initWithFrame:frame];
   [self.view addSubview:self.loadingView];
   [self.loadingView startAnimating];
