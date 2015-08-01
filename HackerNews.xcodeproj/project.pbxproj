@@ -37,6 +37,7 @@
 		A90E14FF1ACC91CB003B5F1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A90E14FE1ACC91CB003B5F1E /* main.m */; };
 		A90E15021ACC91CB003B5F1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A90E15011ACC91CB003B5F1E /* AppDelegate.m */; };
 		A90E150A1ACC91CB003B5F1E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A90E15091ACC91CB003B5F1E /* Images.xcassets */; };
+		A921A8031B6CB47D00057118 /* Post+ReadState.m in Sources */ = {isa = PBXBuildFile; fileRef = A921A8021B6CB47D00057118 /* Post+ReadState.m */; };
 		A928F1B21ACD8B7B00439A76 /* PostBodyComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A928F1B11ACD8B7B00439A76 /* PostBodyComponent.mm */; };
 		A928F1B51ACD8F9200439A76 /* PostTotalCommentsComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A928F1B41ACD8F9200439A76 /* PostTotalCommentsComponent.mm */; };
 		A93172461B2066290017AF40 /* Comment+RepliesState.m in Sources */ = {isa = PBXBuildFile; fileRef = A93172451B2066290017AF40 /* Comment+RepliesState.m */; };
@@ -123,6 +124,8 @@
 		A90E15091ACC91CB003B5F1E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A90E15121ACC91CB003B5F1E /* HackerNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackerNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90E15171ACC91CB003B5F1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A921A8011B6CB47D00057118 /* Post+ReadState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Post+ReadState.h"; sourceTree = "<group>"; };
+		A921A8021B6CB47D00057118 /* Post+ReadState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Post+ReadState.m"; sourceTree = "<group>"; };
 		A928F1B01ACD8B7B00439A76 /* PostBodyComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostBodyComponent.h; sourceTree = "<group>"; };
 		A928F1B11ACD8B7B00439A76 /* PostBodyComponent.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.objcpp; path = PostBodyComponent.mm; sourceTree = "<group>"; tabWidth = 2; };
 		A928F1B31ACD8F9200439A76 /* PostTotalCommentsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = PostTotalCommentsComponent.h; sourceTree = "<group>"; tabWidth = 2; };
@@ -242,6 +245,8 @@
 				62DD2CA47C94E3B2AF4E378C /* UIViewController+Theming.m */,
 				A93172441B2066290017AF40 /* Comment+RepliesState.h */,
 				A93172451B2066290017AF40 /* Comment+RepliesState.m */,
+				A921A8011B6CB47D00057118 /* Post+ReadState.h */,
+				A921A8021B6CB47D00057118 /* Post+ReadState.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 				A99787F91B10AEC80069DC7B /* CommentsDataProvider.mm in Sources */,
 				A9A443BD1AD01B0000ECCB48 /* WebViewController.m in Sources */,
 				A9E0FC111B1451C9005D383D /* UserInfoViewController.m in Sources */,
+				A921A8031B6CB47D00057118 /* Post+ReadState.m in Sources */,
 				A928F1B51ACD8F9200439A76 /* PostTotalCommentsComponent.mm in Sources */,
 				A9482CFD1B0DBC780045E568 /* MainLambdaLoadingView.m in Sources */,
 				A9CE617F1B029B6B00982D3D /* MenuViewController.m in Sources */,

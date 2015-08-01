@@ -26,4 +26,6 @@
                                         client:(Client *)client
                                        context:(GenericContext *)context;
 
+- (void)markPostAsRead:(Post *)post collectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath;
+
 @end

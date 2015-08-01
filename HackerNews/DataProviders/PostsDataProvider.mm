@@ -16,6 +16,7 @@
 #import "PostComponent.h"
 #import "UIViewController+LambdaLoadingView.h"
 #import <ComponentKit/ComponentKit.h>
+#import "Post+ReadState.h"
 
 @interface PostsDataProvider ()
 @property (nonatomic, strong) NSOrderedSet *posts;
@@ -205,6 +206,17 @@
    constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:collectionView.bounds.size]];
   self.posts = [NSOrderedSet orderedSet];
   self.nextPage = 1;
+}
+
+- (void)markPostAsRead:(Post *)post collectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath
+{
+  post.read = YES;
+  
+  CKArrayControllerInputItems items;
+  items.update(indexPath, post);
+  [_dataSource
+   enqueueChangeset:{ {}, items }
+   constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:collectionView.bounds.size]];
 }
 
 #pragma mark - CKComponentProvider

@@ -38,7 +38,7 @@
       dateColor = context.theme.greyColor;
       usernameColor = context.theme.blackColor;
       avatarInitialColor = [UIColor whiteColor];
-      separatorColor = [context.theme.greyColor colorWithAlphaComponent:.3];
+      separatorColor = [UIColor colorWithWhite:0 alpha:.04f];
       break;
     case CommentStateExpanded:
       avatarImage = [UIImage imageNamed:@"AvatarBg_Small_White"];
