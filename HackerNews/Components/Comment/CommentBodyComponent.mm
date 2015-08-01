@@ -112,7 +112,7 @@
             }
           }],
          .alignSelf = CKStackLayoutAlignSelfStretch,
-         .spacingAfter = 8
+         .spacingAfter = 7
        },
        {
          [CKTextComponent
