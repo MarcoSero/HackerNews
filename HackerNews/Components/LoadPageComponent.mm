@@ -17,7 +17,7 @@
            sizingOptions:{}
            child:
            [CKInsetComponent
-            newWithInsets:UIEdgeInsetsMake(5, 5, 5, 5)
+            newWithInsets:UIEdgeInsetsMake(16, 16, 16, 16)
             component:
             [CKComponent
              newWithView:{
