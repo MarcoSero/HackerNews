@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ComponentKit/ComponentKit.h>
 
-@interface FaviconDownloader : NSObject <CKNetworkImageDownloading>
+@interface FaviconManager : NSObject <CKNetworkImageDownloading>
 
 @property (nonatomic, assign) CGFloat targetSize;
 

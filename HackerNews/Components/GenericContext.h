@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ComponentKit/ComponentKit.h>
-#import "FaviconDownloader.h"
+#import "FaviconManager.h"
 
 @class Theme;
 @protocol CommentsTotalComponentDelegate;
@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong, readonly) Theme *theme;
 @property (nonatomic, strong) id<CommentsTotalComponentDelegate> commentsDelegate;
-@property (nonatomic, strong) FaviconDownloader *faviconDownloader;
+@property (nonatomic, strong) FaviconManager *faviconDownloader;
 
 - (id)initWithTheme:(Theme *)theme;
 

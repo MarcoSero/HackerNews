@@ -10,6 +10,8 @@
 @class GenericContext;
 @class Post;
 
+CGFloat const PostFaviconDefaultSize = 12;
+
 @interface PostComponent : CKCompositeComponent
 
 + (instancetype)newWithPost:(Post *)post postContext:(GenericContext *)postContext;

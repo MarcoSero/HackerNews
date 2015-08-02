@@ -50,7 +50,7 @@
 		A9B83F2F1AFA69AB00B051CB /* NavigationControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B83F2E1AFA69AB00B051CB /* NavigationControllerDelegate.m */; };
 		A9B9D7291ACCA08C00E12376 /* Launch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B9D7281ACCA08C00E12376 /* Launch.xib */; };
 		A9CE617F1B029B6B00982D3D /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CE617E1B029B6B00982D3D /* MenuViewController.m */; };
-		A9D97CC21AFA00770050FB81 /* FaviconDownloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9D97CC11AFA00770050FB81 /* FaviconDownloader.mm */; };
+		A9D97CC21AFA00770050FB81 /* FaviconManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9D97CC11AFA00770050FB81 /* FaviconManager.mm */; };
 		A9E0FC111B1451C9005D383D /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E0FC101B1451C9005D383D /* UserInfoViewController.m */; };
 		A9E1D55E1AFB419800DCFDAF /* UIView+VisualConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E1D55D1AFB419800DCFDAF /* UIView+VisualConstraints.m */; };
 		A9E1D5611AFBF8A100DCFDAF /* CommentFooterComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9E1D5601AFBF8A100DCFDAF /* CommentFooterComponent.mm */; };
@@ -149,8 +149,8 @@
 		A9B9D7281ACCA08C00E12376 /* Launch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Launch.xib; sourceTree = "<group>"; };
 		A9CE617D1B029B6B00982D3D /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		A9CE617E1B029B6B00982D3D /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
-		A9D97CC01AFA00770050FB81 /* FaviconDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaviconDownloader.h; sourceTree = "<group>"; };
-		A9D97CC11AFA00770050FB81 /* FaviconDownloader.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.objcpp; path = FaviconDownloader.mm; sourceTree = "<group>"; tabWidth = 2; };
+		A9D97CC01AFA00770050FB81 /* FaviconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaviconManager.h; sourceTree = "<group>"; };
+		A9D97CC11AFA00770050FB81 /* FaviconManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.objcpp; path = FaviconManager.mm; sourceTree = "<group>"; tabWidth = 2; };
 		A9E0FC0F1B1451C9005D383D /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		A9E0FC101B1451C9005D383D /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; tabWidth = 2; };
 		A9E1D55C1AFB419800DCFDAF /* UIView+VisualConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+VisualConstraints.h"; sourceTree = "<group>"; };
@@ -421,8 +421,8 @@
 		A95A7C1F1AFA22D3000F8346 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				A9D97CC01AFA00770050FB81 /* FaviconDownloader.h */,
-				A9D97CC11AFA00770050FB81 /* FaviconDownloader.mm */,
+				A9D97CC01AFA00770050FB81 /* FaviconManager.h */,
+				A9D97CC11AFA00770050FB81 /* FaviconManager.mm */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -700,7 +700,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9D97CC21AFA00770050FB81 /* FaviconDownloader.mm in Sources */,
+				A9D97CC21AFA00770050FB81 /* FaviconManager.mm in Sources */,
 				A928F1B21ACD8B7B00439A76 /* PostBodyComponent.mm in Sources */,
 				A99787F91B10AEC80069DC7B /* CommentsDataProvider.mm in Sources */,
 				A9A443BD1AD01B0000ECCB48 /* WebViewController.m in Sources */,

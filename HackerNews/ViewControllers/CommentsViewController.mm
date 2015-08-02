@@ -75,6 +75,7 @@
   self.collectionView.delegate = self;
   
   GenericContext *context = [[GenericContext alloc] initWithTheme:self.theme];
+  context.faviconDownloader = [[FaviconManager alloc] initWithTargetSize:PostFaviconDefaultSize];
   self.dataProvider = [CommentsDataProvider
                        dataProviderWithCollectionView:self.collectionView
                        post:self.post

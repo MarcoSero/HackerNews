@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Marco Sero. All rights reserved.
 //
 
-#import "FaviconDownloader.h"
+#import "FaviconManager.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation UIImage (Resize)
@@ -34,11 +34,11 @@ NSCache *faviconCache()
 
 static NSString *FaviconBaseURLString = @"http://icons.better-idea.org/api/icons";
 
-@interface FaviconDownloader ()
+@interface FaviconManager ()
 @property (nonatomic, strong) NSOperationQueue *downloadQueue;
 @end
 
-@implementation FaviconDownloader
+@implementation FaviconManager
 
 - (instancetype)initWithTargetSize:(CGFloat)size
 {

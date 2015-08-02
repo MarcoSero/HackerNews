@@ -16,7 +16,7 @@
 #import "WebViewController.h"
 #import "PostTotalCommentsComponent.h"
 #import "CommentsViewController.h"
-#import "FaviconDownloader.h"
+#import "FaviconManager.h"
 #import "MenuViewController.h"
 #import "LabelImageBarButtonItem.h"
 #import "UIViewController+LambdaLoadingView.h"
@@ -63,7 +63,7 @@
 {
   GenericContext *context = [[GenericContext alloc] initWithTheme:self.theme];
   context.commentsDelegate = self;
-  context.faviconDownloader = [[FaviconDownloader alloc] initWithTargetSize:12];
+  context.faviconDownloader = [[FaviconManager alloc] initWithTargetSize:PostFaviconDefaultSize];
   
   self.dataProvider = [PostsDataProvider
                        dataProviderWithCollectionView:self.collectionView
