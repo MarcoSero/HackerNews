@@ -23,7 +23,7 @@
   NSString *points = [NSString stringWithFormat:@"%ld", (long)post.points];
 
   CKComponent *domainComponent = nil;
-  if (post.type != PostTypeAsk || post.domain.length == 0) {
+  if (post.domain.length > 0) {
     domainComponent =
     [CKStackLayoutComponent
      newWithView:{}
