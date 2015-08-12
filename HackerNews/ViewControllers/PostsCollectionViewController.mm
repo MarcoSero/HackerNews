@@ -144,7 +144,7 @@
 {
   Post *post = (Post *)[self.dataProvider.componentsDataSource modelForItemAtIndexPath:indexPath];
   
-  if (post.type == PostTypeAsk) {
+  if (post.type == PostTypeAsk || post.isHackerNewsThread) {
     [self showCommentsForPost:post];
     return;
   }

@@ -20,10 +20,12 @@ func stringFromData(data: NSData) -> Result<String, NSError> {
 
 typealias HtmlParser = String -> Result<NSObject, NSError>
 
+let HackerNewsURL = NSURL(string: "https://news.ycombinator.com")!
+
 @objc public class Client: NSObject {
     
-    let baseURL = "https://news.ycombinator.com"
     let scheduler = RACScheduler(priority: RACSchedulerPriorityBackground)
+    let baseURL = HackerNewsURL.absoluteString!
     
     public var reachabilitySignal: RACSignal {
         let reachability = FXReachability.sharedInstance()

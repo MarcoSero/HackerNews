@@ -79,3 +79,14 @@ import Foundation
         return description
     }
 }
+
+public extension Post {
+    
+    var isHackerNewsThread: Bool {
+        let isSpecialHackerNewsURL = URL?.absoluteString?.hasPrefix("item?")
+        return URL?.host == HackerNewsURL.host ||
+                isSpecialHackerNewsURL == nil ||
+                isSpecialHackerNewsURL!
+    }
+    
+}
