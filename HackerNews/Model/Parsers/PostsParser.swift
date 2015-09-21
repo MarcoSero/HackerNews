@@ -43,14 +43,8 @@ public struct PostsParser {
             return nil
         }
         let domains = headers!
-            .map { $0.xpath("span[@class='sitebit comhead']")?.first?.contents
+            .map { $0.xpath("span/a/span[@class='sitestr']")?.first?.contents
                     .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
-            .map { s -> String? in
-                if let s = s {
-                    return s[1 ..< count(s) - 1]
-                }
-                return nil
-            }
         let points = footers!
             .map { $0.xpath("span[@class='score']")?.first?.contents
                     .stringByReplacingOccurrencesOfString(" points", withString: "", options: .CaseInsensitiveSearch, range: nil).toInt()}
