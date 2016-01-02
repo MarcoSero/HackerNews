@@ -18,7 +18,7 @@ class CommentsParserTests : XCTestCase {
     override func setUp() {
         let bundle = NSBundle(forClass: CommentsParserTests.self)
         let path = bundle.pathForResource("post-page", ofType: "html")
-        stub = String(contentsOfFile:path!, encoding: NSUTF8StringEncoding, error: nil)!
+        stub = try! String(contentsOfFile:path!, encoding: NSUTF8StringEncoding)
     }
     
     func testComments() {
@@ -28,7 +28,7 @@ class CommentsParserTests : XCTestCase {
         case let .Success(box) where box.value is [Comment]:
             
             let comments = box.value as! [Comment]
-            assert(count(comments) == expectedComments, "Should parse \(expectedComments) comments")
+            assert(comments.count == expectedComments, "Should parse \(expectedComments) comments")
             
             let firstComment = comments.first
             AssertEqualOptional(firstComment?.commentId, "9884723")

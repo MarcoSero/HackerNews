@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class Comment: NSObject, Printable, DebugPrintable {
+@objc public class Comment: NSObject, CustomDebugStringConvertible {
     
     public var commentId: String?
     public var username: String?

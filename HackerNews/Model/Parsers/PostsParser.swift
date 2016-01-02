@@ -12,9 +12,9 @@ import Result
 
 public struct PostsParser {
     
-    public static func fromHTML(#postsType: PostType)(html: String) -> Result<NSObject, NSError> {
+    public static func fromHTML(postsType postsType: PostType)(html: String) -> Result<NSObject, NSError> {
         var error: NSError?
-        var parser = HTMLParser(html: html, error: &error)
+        let parser = HTMLParser(html: html, error: &error)
         if let error = error {
             return Result.failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
         }
@@ -46,8 +46,8 @@ public struct PostsParser {
             .map { $0.xpath("span/a/span[@class='sitestr']")?.first?.contents
                     .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
         let points = footers!
-            .map { $0.xpath("span[@class='score']")?.first?.contents
-                    .stringByReplacingOccurrencesOfString(" points", withString: "", options: .CaseInsensitiveSearch, range: nil).toInt()}
+            .map { Int($0.xpath("span[@class='score']")?.first?.contents
+                    .stringByReplacingOccurrencesOfString(" points", withString: "", options: .CaseInsensitiveSearch, range: nil))}
         let footersLinks = footers!.map { return $0.xpath("a") }
         let usernames = footersLinks.map { return $0?[safe:0]?.contents }
         let timeStrings = footersLinks.map { return $0?[safe:1]?.contents }
@@ -55,13 +55,13 @@ public struct PostsParser {
             .map { $0?[safe:1]?.xpath("@href")?.first?.contents }
             .map { s -> String? in
                 if let s = s {
-                    return s[8 ..< count(s)]
+                    return s[8 ..< s.characters.count]
                 }
                 return nil
             }
         let commentCounts = footersLinks
             .map { $0?[safe:2]?.contents }
-            .map { $0?.stringByReplacingOccurrencesOfString(" comments", withString: "", options: .CaseInsensitiveSearch, range: nil).toInt() }
+            .map { Int($0?.stringByReplacingOccurrencesOfString(" comments", withString: "", options: .CaseInsensitiveSearch, range: nil)) }
         
         for i in 0..<footers!.count {
             let post = Post()

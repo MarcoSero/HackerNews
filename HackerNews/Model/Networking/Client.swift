@@ -25,7 +25,7 @@ let HackerNewsURL = NSURL(string: "https://news.ycombinator.com")!
 @objc public class Client: NSObject {
     
     let scheduler = RACScheduler(priority: RACSchedulerPriorityBackground)
-    let baseURL = HackerNewsURL.absoluteString!
+    let baseURL = HackerNewsURL.absoluteString
     
     public var reachabilitySignal: RACSignal {
         let reachability = FXReachability.sharedInstance()

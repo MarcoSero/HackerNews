@@ -18,7 +18,7 @@ class PostsParserTests : XCTestCase {
     override func setUp() {
         let bundle = NSBundle(forClass: PostsParserTests.self)
         let path = bundle.pathForResource("front-page", ofType: "html")
-        stub = String(contentsOfFile:path!, encoding: NSUTF8StringEncoding, error: nil)!
+        stub = try! String(contentsOfFile:path!, encoding: NSUTF8StringEncoding)
     }
     
     func testPostsParserWithStub() {
@@ -27,7 +27,7 @@ class PostsParserTests : XCTestCase {
         switch result {
         case let .Success(box) where box.value is [Post]:
             let posts = box.value as! [Post]
-            XCTAssertEqual(count(posts), expectedPosts, "Should parse \(expectedPosts) posts")
+            XCTAssertEqual(posts.count, expectedPosts, "Should parse \(expectedPosts) posts")
         default:
             XCTFail("Parsing error")
         }

@@ -12,9 +12,9 @@ import Result
 
 public struct CommentsParser {
 
-    public static func fromHTML(#commentCount: Int)(html: String) -> Result<NSObject, NSError> {
+    public static func fromHTML(commentCount commentCount: Int)(html: String) -> Result<NSObject, NSError> {
         var error: NSError?
-        var parser = HTMLParser(html: html, error: &error)
+        let parser = HTMLParser(html: html, error: &error)
         if let error = error {
             return Result.failure(error)
         }
@@ -44,12 +44,12 @@ public struct CommentsParser {
             .map { $0?[safe:1]?.xpath("@href")?.first?.contents }
             .map { s -> String? in
                 if let s = s {
-                    return s[8 ..< count(s)]
+                    return s[8 ..< s.characters.count]
                 }
                 return nil
             }
         let levels = indentations?
-            .map { $0.contents.toInt() }
+            .map { Int($0.contents) }
             .map { level -> Int in
                 if let level = level {
                     return level / 40
