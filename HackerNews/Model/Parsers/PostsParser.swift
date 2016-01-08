@@ -16,7 +16,7 @@ public struct PostsParser {
         var error: NSError?
         let parser = HTMLParser(html: html, error: &error)
         if let error = error {
-            return Result.failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
+            return Result.Failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
         }
         
         var posts: [Post] = []
@@ -29,7 +29,7 @@ public struct PostsParser {
         assert(isValid, "Post headers must match footers")
         
         if !isValid {
-            return Result.failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [
+            return Result.Failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [
                 NSLocalizedDescriptionKey: "Parsing error"
                 ]))
         }
@@ -77,6 +77,6 @@ public struct PostsParser {
             posts.append(post)
         }
         
-        return Result.success(posts)
+        return Result.Success(posts)
     }
 }

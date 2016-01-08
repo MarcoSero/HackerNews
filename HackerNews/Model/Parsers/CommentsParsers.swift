@@ -16,7 +16,7 @@ public struct CommentsParser {
         var error: NSError?
         let parser = HTMLParser(html: html, error: &error)
         if let error = error {
-            return Result.failure(error)
+            return Result.Failure(error)
         }
         
         var comments: [Comment] = []
@@ -30,10 +30,10 @@ public struct CommentsParser {
         
         if !isValid {
             if commentCount == 0 {
-                return Result.success(comments)
+                return Result.Success(comments)
             }
             assert(false, "Comments heads count must match bodies count")
-            return Result.failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [ NSLocalizedDescriptionKey: "Parsing error" ]))
+            return Result.Failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [ NSLocalizedDescriptionKey: "Parsing error" ]))
         }
         
         let commentInfos = commentHeads?.map{ $0.xpath("a") }
@@ -69,6 +69,6 @@ public struct CommentsParser {
             comments.append(comment)
         }
 
-        return Result.success(comments)
+        return Result.Success(comments)
     }
 }

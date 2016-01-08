@@ -16,7 +16,7 @@ struct UserParser {
         var error: NSError?
         let parser = HTMLParser(html: html, error: &error)
         if let error = error {
-            return Result.failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
+            return Result.Failure(error)
         }
         
         let bodyNode = parser.body
