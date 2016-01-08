@@ -25,9 +25,21 @@ class PostsParserTests : XCTestCase {
         let result = PostsParser.fromHTML(postsType: .Popular)(html: stub)
         
         switch result {
-        case let .Success(box) where box.value is [Post]:
-            let posts = box.value as! [Post]
+        case let .Success(box) where box is [Post]:
+            let posts = box as! [Post]
             XCTAssertEqual(posts.count, expectedPosts, "Should parse \(expectedPosts) posts")
+          
+            let firstPost = posts.first
+            AssertEqualOptional(firstPost?.postID, "10860517")
+            AssertEqualOptional(firstPost?.username, "brahmwg")
+            AssertEqualOptional(firstPost?.timeString, "8 hours ago")
+            AssertEqualOptional(firstPost?.title, "Valuing time over money is associated with greater happiness")
+            AssertEqualOptional(firstPost?.URL, "https://www.researchgate.net/publication/283619534_Valuing_time_over_money_is_associated_with_greater_happiness")
+            AssertEqualOptional(firstPost?.domain, "researchgate.net")
+            AssertEqualOptional(firstPost?.points, 317)
+            AssertEqualOptional(firstPost?.commentCount, 121)
+            AssertEqualOptional(firstPost?.type, .Popular)
+
         default:
             XCTFail("Parsing error")
         }

@@ -13,7 +13,7 @@ import HackerNews
 class CommentsParserTests : XCTestCase {
     
     var stub: String = ""
-    let expectedComments = 51
+    let expectedComments = 121
     
     override func setUp() {
         let bundle = NSBundle(forClass: CommentsParserTests.self)
@@ -25,23 +25,23 @@ class CommentsParserTests : XCTestCase {
         let result = CommentsParser.fromHTML(commentCount: expectedComments)(html: stub)
         
         switch result {
-        case let .Success(box) where box.value is [Comment]:
-            
-            let comments = box.value as! [Comment]
+        case let .Success(box) where box is [Comment]:
+
+            let comments = box as! [Comment]
             assert(comments.count == expectedComments, "Should parse \(expectedComments) comments")
-            
+
             let firstComment = comments.first
-            AssertEqualOptional(firstComment?.commentId, "9884723")
-            AssertEqualOptional(firstComment?.timeString, "31 minutes ago")
-            AssertEqualOptional(firstComment?.username, "Arjuna")
-            AssertEqualOptional(firstComment?.body, "In honor of Clyde William Tombaugh [1], the astronomer who discovered Pluto, a canister [2] containing his ashes is on-board the New Horizons space probe. It reads:\n\"Interned herein are remains of American Clyde W. Tombaugh, discoverer of Pluto and the Solar System's 'Third Zone.' Adelle and Muron's boy, Patricia's husband, Annette and Alden's father, astronomer, teacher, punster, and friend: Clyde W. Tombaugh (1906 - 1997).\"\n\nA fitting tribute.\n\n[1] https://en.wikipedia.org/wiki/Clyde_Tombaugh\n\n[2] http://media2.s-nbcnews.com/j/newscms/2015_28/1109391/150706-ashes_7dd0a2249a8eb96eedd34f0c5687f931.nbcnews-fp-360-360.jpg")
+            AssertEqualOptional(firstComment?.commentId, "10860901")
+            AssertEqualOptional(firstComment?.timeString, "7 hours ago")
+            AssertEqualOptional(firstComment?.username, "roymurdock")
+            AssertEqualOptional(firstComment?.body, "I searched for the phrase \"diminishing marginal returns\" but could not find it in the article which seems like a bit of an omission.\nThis is a fundamental economic concept - the more of something you have, the less value you derive from each incremental unit.\n\nSo, based on personal preferences, once you reach a certain level of income you will start to substitute away from labor (income) towards leisure/free time (non-market activities such as hobbies, cooking, parenting, gaming, chilling).\n\nThe study data shows this pretty clearly (if I'm reading it correctly) - in Study 2b (wealthy people polled at a science museum) the median household income was $100-149k and the \"% Time Oriented\" was 69%. In Study 4 (online panel members who get free internet in exchange for survey participation) the median household income was $75-85k and the \"% Time Oriented\" was 46%.\n\nThe implied result that upper middle class folk are able to spend more time on leisure and are therefore happier on average than regular middle class folk doesn\'t seem too groundbreaking.")
             AssertEqualOptional(firstComment?.level, 0)
             
             let lastComment = comments.last
-            AssertEqualOptional(lastComment?.commentId, "9884661")
-            AssertEqualOptional(lastComment?.timeString, "39 minutes ago")
-            AssertEqualOptional(lastComment?.username, "chasing")
-            AssertEqualOptional(lastComment?.body, "This is awesome. Congratulations to everyone who pulled this off (and fingers crossed that the data gets back successfully).\nEveryone has earned the right to chant the name of whatever country they feel like.")
+            AssertEqualOptional(lastComment?.commentId, "10861318")
+            AssertEqualOptional(lastComment?.timeString, "6 hours ago")
+            AssertEqualOptional(lastComment?.username, "spectrum1234")
+            AssertEqualOptional(lastComment?.body, "But I thought time IS money ?????")
             AssertEqualOptional(lastComment?.level, 0)
             
         default:
