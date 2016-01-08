@@ -38,10 +38,10 @@ public struct CommentsParser {
         
         let commentInfos = commentHeads?.map{ $0.xpath("a") }
         let usernames = commentInfos?.map { $0?.first?.contents }
-        let timeStrings = commentInfos?.map { $0?[safe:1]?.contents }
+        let timeStrings = commentHeads?.map { $0.xpath("span[@class='age']/a")?.first?.contents }
         let bodies = commentBodies?.map { $0.rawContents.fromHackerNewsHTML() }
-        let commentIds = commentInfos?
-            .map { $0?[safe:1]?.xpath("@href")?.first?.contents }
+        let commentIds = commentHeads?
+            .map { $0.xpath("span[@class='age']/a/@href")!.first?.contents }
             .map { s -> String? in
                 if let s = s {
                     return s[8 ..< s.characters.count]

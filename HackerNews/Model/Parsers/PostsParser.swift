@@ -51,9 +51,9 @@ public struct PostsParser {
             .map { $0?.stringByReplacingOccurrencesOfString(" points", withString: "", options: .CaseInsensitiveSearch, range: nil) }
             .map { Int($0 ?? "0") }
       
-        let footersLinks = footers!.map { return $0.xpath("a") }
-        let usernames = footersLinks.map { return $0?[safe:0]?.contents }
-        let timeStrings = footers!.map { return $0.xpath("span[@class='age']/a")?.first?.contents }
+        let footersLinks = footers!.map { $0.xpath("a") }
+        let usernames = footersLinks.map { $0?[safe:0]?.contents }
+        let timeStrings = footers!.map { $0.xpath("span[@class='age']/a")?.first?.contents }
         let postIDs = footersLinks
             .map { $0?[safe:1]?.xpath("@href")?.first?.contents }
             .map { s -> String? in
