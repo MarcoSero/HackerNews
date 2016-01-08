@@ -27,6 +27,6 @@ struct UserParser {
         user.createdString = bodyNode?.xpath("//td[contains(text(),'created:')]")?.first?.next?.contents.trimCrap()
         user.about = bodyNode?.xpath("//td[contains(text(),'about:')]")?.first?.next?.rawContents.fromHackerNewsHTML().trimCrap()
 
-        return Result.success([user])
+        return Result.Success([user])
     }
 }
