@@ -1,9 +1,8 @@
-# ReactiveCocoa [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![](Logo/header.png)
 
-ReactiveCocoa (RAC) is a Cocoa framework inspired by
-[Functional Reactive
-Programming](http://en.wikipedia.org/wiki/Functional_reactive_programming). It
-provides APIs for composing and transforming **streams of values over time**.
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![GitHub release](https://img.shields.io/github/release/ReactiveCocoa/ReactiveCocoa.svg)](https://github.com/ReactiveCocoa/ReactiveCocoa/releases)
+
+ReactiveCocoa (RAC) is a Cocoa framework inspired by [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming). It provides APIs for composing and transforming **streams of values over time**.
 
  1. [Introduction](#introduction)
  1. [Example: online search](#example-online-search)
@@ -21,6 +20,12 @@ issues](https://github.com/ReactiveCocoa/ReactiveCocoa/issues?q=is%3Aissue+label
 Overflow](http://stackoverflow.com/questions/tagged/reactive-cocoa) have already
 answered it. If not, please feel free to [file your
 own](https://github.com/ReactiveCocoa/ReactiveCocoa/issues/new)!
+
+#### Compatibility
+
+This documents the RAC 4 (currently alpha) which targets Swift 2.x. For
+Swift 1.2 support see the [RAC
+3](https://github.com/ReactiveCocoa/ReactiveCocoa/tree/v3.0.0).
 
 _Many thanks to [Rheinfabrik](http://www.rheinfabrik.de) for generously sponsoring the development of ReactiveCocoa 3!_
 
@@ -61,8 +66,8 @@ The first step is to observe edits to the text field, using a RAC extension to
 
 ```swift
 let searchStrings = textField.rac_textSignal()
-    |> toSignalProducer()
-    |> map { text in text as! String }
+    .toSignalProducer()
+    .map { text in text as! String }
 ```
 
 This gives us a [signal producer][Signal producers] which sends
@@ -77,15 +82,15 @@ With each string, we want to execute a network request. Luckily, RAC offers an
 
 ```swift
 let searchResults = searchStrings
-    |> flatMap(.Latest) { query in
+    .flatMap(.Latest) { (query: String) -> SignalProducer<(NSData, NSURLResponse), NSError> in
         let URLRequest = self.searchRequestWithEscapedQuery(query)
         return NSURLSession.sharedSession().rac_dataWithRequest(URLRequest)
     }
-    |> map { data, URLResponse in
+    .map { (data, URLResponse) -> String in
         let string = String(data: data, encoding: NSUTF8StringEncoding)!
-        return parseJSONResultsFromString(string)
+        return self.parseJSONResultsFromString(string)
     }
-    |> observeOn(UIScheduler())
+    .observeOn(UIScheduler())
 ```
 
 This has transformed our producer of `String`s into a producer of `Array`s
@@ -104,37 +109,38 @@ receive the results (which prevents doing work when the results are never used).
 That’s easy enough:
 
 ```swift
-searchResults.start(next: { results in
-    println("Search results: \(results)")
-})
+searchResults.startWithNext { results in
+    print("Search results: \(results)")
+}
 ```
 
 Here, we watch for the `Next` [event][Events], which contains our results, and
 just log them to the console. This could easily do something else instead, like
 update a table view or a label on screen.
 
-#### Handling errors
+#### Handling failures
 
-In this example so far, any network error will generate an `Error`
+In this example so far, any network error will generate a `Failed`
 [event][Events], which will terminate the event stream. Unfortunately, this
 means that future queries won’t even be attempted.
 
-To remedy this, we need to decide what to do with errors that occur. The
+To remedy this, we need to decide what to do with failures that occur. The
 quickest solution would be to log them, then ignore them:
 
 ```swift
-    |> flatMap(.Latest) { query in
+    .flatMap(.Latest) { (query: String) -> SignalProducer<(NSData, NSURLResponse), NSError> in
         let URLRequest = self.searchRequestWithEscapedQuery(query)
 
-        return NSURLSession.sharedSession().rac_dataWithRequest(URLRequest)
-            |> catch { error in
-                println("Network error occurred: \(error)")
+        return NSURLSession.sharedSession()
+            .rac_dataWithRequest(URLRequest)
+            .flatMapError { error in
+                print("Network error occurred: \(error)")
                 return SignalProducer.empty
             }
     }
 ```
 
-By replacing errors with the `empty` event stream, we’re able to effectively
+By replacing failures with the `empty` event stream, we’re able to effectively
 ignore them.
 
 However, it’s probably more appropriate to retry at least a couple of times
@@ -144,21 +150,22 @@ Our improved `searchResults` producer might look like this:
 
 ```swift
 let searchResults = searchStrings
-    |> flatMap(.Latest) { query in
+    .flatMap(.Latest) { (query: String) -> SignalProducer<(NSData, NSURLResponse), NSError> in
         let URLRequest = self.searchRequestWithEscapedQuery(query)
 
-        return NSURLSession.sharedSession().rac_dataWithRequest(URLRequest)
-            |> retry(2)
-            |> catch { error in
-                println("Network error occurred: \(error)")
+        return NSURLSession.sharedSession()
+            .rac_dataWithRequest(URLRequest)
+            .retry(2)
+            .flatMapError { error in
+                print("Network error occurred: \(error)")
                 return SignalProducer.empty
             }
     }
-    |> map { data, URLResponse in
+    .map { (data, URLResponse) -> String in
         let string = String(data: data, encoding: NSUTF8StringEncoding)!
-        return parseJSONResultsFromString(string)
+        return self.parseJSONResultsFromString(string)
     }
-    |> observeOn(UIScheduler())
+    .observeOn(UIScheduler())
 ```
 
 #### Throttling requests
@@ -171,9 +178,9 @@ search strings:
 
 ```swift
 let searchStrings = textField.rac_textSignal()
-    |> toSignalProducer()
-    |> map { text in text as! String }
-    |> throttle(0.5, onScheduler: UIScheduler())
+    .toSignalProducer()
+    .map { text in text as! String }
+    .throttle(0.5, onScheduler: QueueScheduler.mainQueueScheduler)
 ```
 
 This prevents values from being sent less than 0.5 seconds apart, so the user
@@ -203,7 +210,7 @@ this API, please consult our [legacy documentation][].
 
 ReactiveCocoa was originally inspired, and therefore heavily influenced, by
 Microsoft’s [Reactive
-Extensions](https://msdn.microsoft.com/en-us/data/gg577609.aspx) (Rx) library. There are many ports of Rx, including [RxSwift](https://github.com/kzaher/RxSwift), but ReactiveCocoa is _intentionally_ not a direct port.
+Extensions](https://msdn.microsoft.com/en-us/data/gg577609.aspx) (Rx) library. There are many ports of Rx, including [RxSwift](https://github.com/ReactiveX/RxSwift), but ReactiveCocoa is _intentionally_ not a direct port.
 
 **Where RAC differs from Rx**, it is usually to:
 
@@ -256,14 +263,14 @@ easy](http://www.infoq.com/presentations/Simple-Made-Easy)**.
 
 ### Typed errors
 
-When [signals][] and [signal producers][] are allowed to [error][Events] in ReactiveCocoa,
+When [signals][] and [signal producers][] are allowed to [fail][Events] in ReactiveCocoa,
 the kind of error must be specified in the type system. For example,
-`Signal<Int, NSError>` is a signal of integer values that may send an error of
-type `NSError`.
+`Signal<Int, NSError>` is a signal of integer values that may fail with an error
+of type `NSError`.
 
 More importantly, RAC allows the special type `NoError` to be used instead,
-which _statically guarantees_ that an event stream is not allowed to send an
-error. **This eliminates many bugs caused by unexpected error events.**
+which _statically guarantees_ that an event stream is not allowed to send a
+failure. **This eliminates many bugs caused by unexpected failure events.**
 
 In Rx systems with types, event streams only specify the type of their
 values—not the type of their errors—so this sort of guarantee is impossible.
@@ -273,7 +280,7 @@ values—not the type of their errors—so this sort of guarantee is impossible.
 Rx is basically agnostic as to how it’s used. Although UI programming with Rx is
 very common, it has few features tailored to that particular case.
 
-RAC takes a lot of inspiration from [ReactiveUI](http://reactiveui.net),
+RAC takes a lot of inspiration from [ReactiveUI](http://reactiveui.net/),
 including the basis for [Actions][].
 
 Unlike ReactiveUI, which unfortunately cannot directly change Rx to make it more
@@ -290,10 +297,12 @@ To add RAC to your application:
     [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) of your
     application’s repository.
  1. Run `script/bootstrap` from within the ReactiveCocoa folder.
- 1. Drag and drop `ReactiveCocoa.xcodeproj` into your application’s Xcode
-    project or workspace.
+ 1. Drag and drop `ReactiveCocoa.xcodeproj` and `Carthage/Checkouts/Result/Result.xcodeproj`
+    into your application’s Xcode project or workspace.
  1. On the “General” tab of your application target’s settings, add
-    `ReactiveCocoa.framework` to the “Embedded Binaries” section.
+    `ReactiveCocoa.framework` and `Result.framework` to the “Embedded Binaries” section.
+ 1. If your application target does not contain Swift code at all, you should also
+    set the `EMBEDDED_CONTENT_CONTAINS_SWIFT` build setting to “Yes”.
 
 Or, if you’re using [Carthage](https://github.com/Carthage/Carthage), simply add
 ReactiveCocoa to your `Cartfile`:

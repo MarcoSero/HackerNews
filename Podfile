@@ -14,7 +14,7 @@ link_with 'HackerNews', 'HackerNewsTests'
 
 pod 'ComponentKit', '0.11'
 pod 'CKComponentFadeTransition'
-pod 'ReactiveCocoa', '3.0-RC.1'
+pod 'ReactiveCocoa', '4.0.0-RC.1'
 pod 'FXReachability'
 pod 'Fabric'
 pod 'Crashlytics'
