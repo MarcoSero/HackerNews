@@ -12,11 +12,11 @@ import Result
 
 public struct CommentsParser {
 
-    public static func fromHTML(#commentCount: Int)(html: String) -> Result<NSObject, NSError> {
+    public static func fromHTML(commentCount commentCount: Int)(html: String) -> Result<NSObject, NSError> {
         var error: NSError?
-        var parser = HTMLParser(html: html, error: &error)
+        let parser = HTMLParser(html: html, error: &error)
         if let error = error {
-            return Result.failure(error)
+            return Result.Failure(error)
         }
         
         var comments: [Comment] = []
@@ -30,26 +30,26 @@ public struct CommentsParser {
         
         if !isValid {
             if commentCount == 0 {
-                return Result.success(comments)
+                return Result.Success(comments)
             }
             assert(false, "Comments heads count must match bodies count")
-            return Result.failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [ NSLocalizedDescriptionKey: "Parsing error" ]))
+            return Result.Failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [ NSLocalizedDescriptionKey: "Parsing error" ]))
         }
         
         let commentInfos = commentHeads?.map{ $0.xpath("a") }
         let usernames = commentInfos?.map { $0?.first?.contents }
-        let timeStrings = commentInfos?.map { $0?[safe:1]?.contents }
+        let timeStrings = commentHeads?.map { $0.xpath("span[@class='age']/a")?.first?.contents }
         let bodies = commentBodies?.map { $0.rawContents.fromHackerNewsHTML() }
-        let commentIds = commentInfos?
-            .map { $0?[safe:1]?.xpath("@href")?.first?.contents }
+        let commentIds = commentHeads?
+            .map { $0.xpath("span[@class='age']/a/@href")!.first?.contents }
             .map { s -> String? in
                 if let s = s {
-                    return s[8 ..< count(s)]
+                    return s[8 ..< s.characters.count]
                 }
                 return nil
             }
         let levels = indentations?
-            .map { $0.contents.toInt() }
+            .map { Int($0.contents) }
             .map { level -> Int in
                 if let level = level {
                     return level / 40
@@ -69,6 +69,6 @@ public struct CommentsParser {
             comments.append(comment)
         }
 
-        return Result.success(comments)
+        return Result.Success(comments)
     }
 }

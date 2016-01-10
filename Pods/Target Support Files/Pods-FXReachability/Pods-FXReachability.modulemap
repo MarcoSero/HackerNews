@@ -1,6 +1,0 @@
-framework module FXReachability {
-  umbrella header "Pods-FXReachability-umbrella.h"
-
-  export *
-  module * { export * }
-}

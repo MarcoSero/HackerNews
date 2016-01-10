@@ -1,1 +1,0 @@
-../../../ComponentKit/ComponentKit/Utilities/CKComponentGestureActionsInternal.h

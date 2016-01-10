@@ -1,1 +1,0 @@
-../../../ComponentKit/ComponentKit/Core/Scope/CKComponentScopeInternal.h

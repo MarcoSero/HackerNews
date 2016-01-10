@@ -22,7 +22,7 @@ extension Array {
 extension String {
     
     subscript (i: Int) -> Character {
-        return self[advance(self.startIndex, i)]
+        return self[self.startIndex.advancedBy(i)]
     }
     
     subscript (i: Int) -> String {
@@ -30,17 +30,17 @@ extension String {
     }
     
     subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
+        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
     }
 }
 
 // MARK HTML Cleanup
 
-let hrefRegex = NSRegularExpression(pattern: "<a[^>]+href=\"(.*?)\"[^>]*>.*?</a>", options: .CaseInsensitive, error: nil)!
+let hrefRegex = try! NSRegularExpression(pattern: "<a[^>]+href=\"(.*?)\"[^>]*>.*?</a>", options: .CaseInsensitive)
 
-let divRegex = NSRegularExpression(pattern: "<div.*?>(.|\n)*?</div>", options: .CaseInsensitive, error: nil)!
+let divRegex = try! NSRegularExpression(pattern: "<div.*?>(.|\n)*?</div>", options: .CaseInsensitive)
 
-let htmlTagsRegex = NSRegularExpression(pattern: "<[^>]*>", options: .CaseInsensitive, error: nil)!
+let htmlTagsRegex = try! NSRegularExpression(pattern: "<[^>]*>", options: .CaseInsensitive)
 
 let asciiHTMLMap = [
     "&#38;" : "&",
@@ -67,25 +67,25 @@ extension String {
     }
     
     func removeDivs() -> String {
-        return divRegex.stringByReplacingMatchesInString(self, options: .allZeros, range: NSMakeRange(0, count(self)), withTemplate: "")
+        return divRegex.stringByReplacingMatchesInString(self, options: [], range: NSMakeRange(0, self.characters.count), withTemplate: "")
     }
     
     func replaceParagraphsWithNewLines() -> String {
-        return self.stringByReplacingOccurrencesOfString("<p>", withString:"\n", options:nil, range:Range(start: self.startIndex, end: self.endIndex))
+        return self.stringByReplacingOccurrencesOfString("<p>", withString:"\n", options:[], range:Range(start: self.startIndex, end: self.endIndex))
     }
     
     func extractHrefs() -> String {
-        return hrefRegex.stringByReplacingMatchesInString(self, options: .allZeros, range: NSMakeRange(0, count(self)), withTemplate: "$1")
+        return hrefRegex.stringByReplacingMatchesInString(self, options: [], range: NSMakeRange(0, self.characters.count), withTemplate: "$1")
     }
     
     func removeHTMLTags() -> String {
-        return htmlTagsRegex.stringByReplacingMatchesInString(self, options: .allZeros, range: NSMakeRange(0, count(self)), withTemplate: "")
+        return htmlTagsRegex.stringByReplacingMatchesInString(self, options: [], range: NSMakeRange(0, self.characters.count), withTemplate: "")
     }
     
     func replaceHTMLCharacters() -> String {
         var newString = self
         for (htmlTag, asciiCharacter) in asciiHTMLMap {
-            newString = newString.stringByReplacingOccurrencesOfString(htmlTag, withString:String(asciiCharacter), options:nil, range:Range(start: newString.startIndex, end: newString.endIndex))
+            newString = newString.stringByReplacingOccurrencesOfString(htmlTag, withString:String(asciiCharacter), options:[], range:Range(start: newString.startIndex, end: newString.endIndex))
         }
         return newString
     }

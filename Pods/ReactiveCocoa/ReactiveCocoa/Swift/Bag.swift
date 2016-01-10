@@ -6,11 +6,9 @@
 //  Copyright (c) 2014 GitHub. All rights reserved.
 //
 
-import CoreFoundation
-
 /// A uniquely identifying token for removing a value that was inserted into a
 /// Bag.
-internal final class RemovalToken {
+public final class RemovalToken {
 	private var identifier: UInt?
 
 	private init(identifier: UInt) {
@@ -18,16 +16,19 @@ internal final class RemovalToken {
 	}
 }
 
-/// An unordered, non-unique collection of values of type T.
-internal struct Bag<T> {
-	private var elements: [BagElement<T>] = []
+/// An unordered, non-unique collection of values of type `Element`.
+public struct Bag<Element> {
+	private var elements: [BagElement<Element>] = []
 	private var currentIdentifier: UInt = 0
+
+	public init() {
+	}
 
 	/// Inserts the given value in the collection, and returns a token that can
 	/// later be passed to removeValueForToken().
-	mutating func insert(value: T) -> RemovalToken {
-		let nextIdentifier = currentIdentifier &+ 1
-		if nextIdentifier == 0 {
+	public mutating func insert(value: Element) -> RemovalToken {
+		let (nextIdentifier, overflow) = UInt.addWithOverflow(currentIdentifier, 1)
+		if overflow {
 			reindex()
 		}
 
@@ -35,7 +36,7 @@ internal struct Bag<T> {
 		let element = BagElement(value: value, identifier: currentIdentifier, token: token)
 
 		elements.append(element)
-		currentIdentifier++
+		currentIdentifier = nextIdentifier
 
 		return token
 	}
@@ -43,10 +44,10 @@ internal struct Bag<T> {
 	/// Removes a value, given the token returned from insert().
 	///
 	/// If the value has already been removed, nothing happens.
-	mutating func removeValueForToken(token: RemovalToken) {
+	public mutating func removeValueForToken(token: RemovalToken) {
 		if let identifier = token.identifier {
 			// Removal is more likely for recent objects than old ones.
-			for var i = elements.count - 1; i >= 0; i-- {
+			for i in elements.indices.reverse() {
 				if elements[i].identifier == identifier {
 					elements.removeAtIndex(i)
 					token.identifier = nil
@@ -60,7 +61,7 @@ internal struct Bag<T> {
 	/// will reset all current identifiers to reclaim a contiguous set of
 	/// available identifiers for the future.
 	private mutating func reindex() {
-		for var i = 0; i < elements.count; i++ {
+		for i in elements.indices {
 			currentIdentifier = UInt(i)
 
 			elements[i].identifier = currentIdentifier
@@ -69,44 +70,29 @@ internal struct Bag<T> {
 	}
 }
 
-extension Bag: SequenceType {
-	func generate() -> GeneratorOf<T> {
-		var index = 0
-		let count = elements.count
-
-		return GeneratorOf {
-			if index < count {
-				return self.elements[index++].value
-			} else {
-				return nil
-			}
-		}
-	}
-}
-
 extension Bag: CollectionType {
-	typealias Index = Array<T>.Index
+	public typealias Index = Array<Element>.Index
 
-	var startIndex: Index {
-		return 0
+	public var startIndex: Index {
+		return elements.startIndex
 	}
 	
-	var endIndex: Index {
-		return elements.count
+	public var endIndex: Index {
+		return elements.endIndex
 	}
 
-	subscript(index: Index) -> T {
+	public subscript(index: Index) -> Element {
 		return elements[index].value
 	}
 }
 
-private struct BagElement<T> {
-	let value: T
+private struct BagElement<Value> {
+	let value: Value
 	var identifier: UInt
 	let token: RemovalToken
 }
 
-extension BagElement: Printable {
+extension BagElement: CustomStringConvertible {
 	var description: String {
 		return "BagElement(\(value))"
 	}

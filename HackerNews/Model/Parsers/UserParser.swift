@@ -14,19 +14,19 @@ struct UserParser {
     
     static func fromHTML(html: String) -> Result<NSObject, NSError> {
         var error: NSError?
-        var parser = HTMLParser(html: html, error: &error)
+        let parser = HTMLParser(html: html, error: &error)
         if let error = error {
-            return Result.failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
+            return Result.Failure(error)
         }
         
         let bodyNode = parser.body
         
         let user = User()
         user.username = bodyNode?.xpath("//td[contains(text(),'user:')]")?.first?.next?.child?.contents.trimCrap()
-        user.karma = bodyNode?.xpath("//td[contains(text(),'karma:')]")?.first?.next?.contents.trimCrap().toInt() ?? 0
+        user.karma = Int((bodyNode?.xpath("//td[contains(text(),'karma:')]")?.first?.next?.contents.trimCrap())!) ?? 0
         user.createdString = bodyNode?.xpath("//td[contains(text(),'created:')]")?.first?.next?.contents.trimCrap()
         user.about = bodyNode?.xpath("//td[contains(text(),'about:')]")?.first?.next?.rawContents.fromHackerNewsHTML().trimCrap()
 
-        return Result.success([user])
+        return Result.Success([user])
     }
 }
