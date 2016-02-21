@@ -87,7 +87,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/CKComponentFadeTransition.framework"
   install_framework "Pods/ComponentKit.framework"
   install_framework "Pods/FXReachability.framework"
-  install_framework "Pods/Keys.framework"
   install_framework "Pods/ReactiveCocoa.framework"
   install_framework "Pods/Result.framework"
 fi
@@ -95,7 +94,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/CKComponentFadeTransition.framework"
   install_framework "Pods/ComponentKit.framework"
   install_framework "Pods/FXReachability.framework"
-  install_framework "Pods/Keys.framework"
   install_framework "Pods/ReactiveCocoa.framework"
   install_framework "Pods/Result.framework"
 fi

@@ -1,12 +1,10 @@
 CLANG_CXX_LANGUAGE_STANDARD = c++11
 CLANG_CXX_LIBRARY = libc++
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Crashlytics" "${PODS_ROOT}/Fabric"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/CKComponentFadeTransition.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ComponentKit.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/FXReachability.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Keys.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ReactiveCocoa.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Result.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Fabric"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"z" -framework "CKComponentFadeTransition" -framework "ComponentKit" -framework "Crashlytics" -framework "FXReachability" -framework "Fabric" -framework "Keys" -framework "ReactiveCocoa" -framework "Result" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"
+OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/CKComponentFadeTransition.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ComponentKit.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/FXReachability.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ReactiveCocoa.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Result.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "CKComponentFadeTransition" -framework "ComponentKit" -framework "FXReachability" -framework "ReactiveCocoa" -framework "Result"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
 PODS_ROOT = ${SRCROOT}/Pods
