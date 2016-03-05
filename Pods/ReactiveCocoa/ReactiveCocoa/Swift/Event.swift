@@ -6,17 +6,20 @@
 //  Copyright (c) 2015 GitHub. All rights reserved.
 //
 
+import Box
+import Result
+
 /// Represents a signal event.
 ///
 /// Signals must conform to the grammar:
-/// `Next* (Failed | Completed | Interrupted)?`
-public enum Event<Value, Error: ErrorType> {
+/// `Next* (Error | Completed | Interrupted)?`
+public enum Event<T, E: ErrorType> {
 	/// A value provided by the signal.
-	case Next(Value)
+	case Next(Box<T>)
 
 	/// The signal terminated because of an error. No further events will be
 	/// received.
-	case Failed(Error)
+	case Error(Box<E>)
 
 	/// The signal successfully terminated. No further events will be received.
 	case Completed
@@ -24,7 +27,12 @@ public enum Event<Value, Error: ErrorType> {
 	/// Event production on the signal has been interrupted. No further events
 	/// will be received.
 	case Interrupted
-
+	
+	#if DEBUG
+	public typealias Sink = DebugSinkOf<Event>
+	#else
+	public typealias Sink = SinkOf<Event>
+	#endif
 
 	/// Whether this event indicates signal termination (i.e., that no further
 	/// events will be received).
@@ -33,19 +41,25 @@ public enum Event<Value, Error: ErrorType> {
 		case .Next:
 			return false
 
-		case .Failed, .Completed, .Interrupted:
+		case .Error:
+			return true
+
+		case .Completed:
+			return true
+
+		case .Interrupted:
 			return true
 		}
 	}
 
 	/// Lifts the given function over the event's value.
-	public func map<U>(f: Value -> U) -> Event<U, Error> {
+	public func map<U>(f: T -> U) -> Event<U, E> {
 		switch self {
 		case let .Next(value):
-			return .Next(f(value))
+			return .Next(value.map(f))
 
-		case let .Failed(error):
-			return .Failed(error)
+		case let .Error(error):
+			return .Error(error)
 
 		case .Completed:
 			return .Completed
@@ -56,13 +70,13 @@ public enum Event<Value, Error: ErrorType> {
 	}
 
 	/// Lifts the given function over the event's error.
-	public func mapError<F>(f: Error -> F) -> Event<Value, F> {
+	public func mapError<F>(f: E -> F) -> Event<T, F> {
 		switch self {
 		case let .Next(value):
 			return .Next(value)
 
-		case let .Failed(error):
-			return .Failed(f(error))
+		case let .Error(error):
+			return .Error(error.map(f))
 
 		case .Completed:
 			return .Completed
@@ -73,31 +87,53 @@ public enum Event<Value, Error: ErrorType> {
 	}
 
 	/// Unwraps the contained `Next` value.
-	public var value: Value? {
-		if case let .Next(value) = self {
-			return value
-		} else {
+	public var value: T? {
+		switch self {
+		case let .Next(value):
+			return value.value
+		default:
 			return nil
 		}
 	}
 
 	/// Unwraps the contained `Error` value.
-	public var error: Error? {
-		if case let .Failed(error) = self {
-			return error
-		} else {
+	public var error: E? {
+		switch self {
+		case let .Error(error):
+			return error.value
+		default:
 			return nil
+		}
+	}
+	
+	/// Creates a sink that can receive events of this type, then invoke the
+	/// given handlers based on the kind of event received.
+	public static func sink(error: (E -> ())? = nil, completed: (() -> ())? = nil, interrupted: (() -> ())? = nil, next: (T -> ())? = nil) -> Sink {
+		return Sink { event in
+			switch event {
+			case let .Next(value):
+				next?(value.value)
+
+			case let .Error(err):
+				error?(err.value)
+
+			case .Completed:
+				completed?()
+
+			case .Interrupted:
+				interrupted?()
+			}
 		}
 	}
 }
 
-public func == <Value: Equatable, Error: Equatable> (lhs: Event<Value, Error>, rhs: Event<Value, Error>) -> Bool {
+public func == <T: Equatable, E: Equatable> (lhs: Event<T, E>, rhs: Event<T, E>) -> Bool {
 	switch (lhs, rhs) {
 	case let (.Next(left), .Next(right)):
-		return left == right
+		return left.value == right.value
 
-	case let (.Failed(left), .Failed(right)):
-		return left == right
+	case let (.Error(left), .Error(right)):
+		return left.value == right.value
 
 	case (.Completed, .Completed):
 		return true
@@ -110,14 +146,14 @@ public func == <Value: Equatable, Error: Equatable> (lhs: Event<Value, Error>, r
 	}
 }
 
-extension Event: CustomStringConvertible {
+extension Event: Printable {
 	public var description: String {
 		switch self {
 		case let .Next(value):
-			return "NEXT \(value)"
+			return "NEXT \(value.value)"
 
-		case let .Failed(error):
-			return "FAILED \(error)"
+		case let .Error(error):
+			return "ERROR \(error.value)"
 
 		case .Completed:
 			return "COMPLETED"
@@ -128,18 +164,22 @@ extension Event: CustomStringConvertible {
 	}
 }
 
-/// Event protocol for constraining signal extensions
-public protocol EventType {
-	// The value type of an event.
-	typealias Value
-	/// The error type of an event. If errors aren't possible then `NoError` can be used.
-	typealias Error: ErrorType
-	/// Extracts the event from the receiver.
-	var event: Event<Value, Error> { get }
+/// Puts a `Next` event into the given sink.
+public func sendNext<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(var sink: S, value: T) {
+	sink.put(.Next(Box(value)))
 }
 
-extension Event: EventType {
-	public var event: Event<Value, Error> {
-		return self
-	}
+/// Puts an `Error` event into the given sink.
+public func sendError<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(var sink: S, error: E) {
+	sink.put(.Error(Box(error)))
+}
+
+/// Puts a `Completed` event into the given sink.
+public func sendCompleted<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(var sink: S) {
+	sink.put(.Completed)
+}
+
+/// Puts a `Interrupted` event into the given sink.
+public func sendInterrupted<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(var sink: S) {
+	sink.put(.Interrupted)
 }

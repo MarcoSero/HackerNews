@@ -1,0 +1,1 @@
+../../../ComponentKit/ComponentTextKit/Utility/CKFunctor.h

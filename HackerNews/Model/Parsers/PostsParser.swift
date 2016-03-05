@@ -12,11 +12,11 @@ import Result
 
 public struct PostsParser {
     
-    public static func fromHTML(postsType postsType: PostType)(html: String) -> Result<NSObject, NSError> {
+    public static func fromHTML(#postsType: PostType)(html: String) -> Result<NSObject, NSError> {
         var error: NSError?
-        let parser = HTMLParser(html: html, error: &error)
+        var parser = HTMLParser(html: html, error: &error)
         if let error = error {
-            return Result.Failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
+            return Result.failure(NSError(domain: error.domain, code: error.code, userInfo: error.userInfo))
         }
         
         var posts: [Post] = []
@@ -29,7 +29,7 @@ public struct PostsParser {
         assert(isValid, "Post headers must match footers")
         
         if !isValid {
-            return Result.Failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [
+            return Result.failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [
                 NSLocalizedDescriptionKey: "Parsing error"
                 ]))
         }
@@ -45,29 +45,24 @@ public struct PostsParser {
         let domains = headers!
             .map { $0.xpath("span/a/span[@class='sitestr']")?.first?.contents
                     .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
-
         let points = footers!
-            .map { $0.xpath("span[@class='score']")?.first?.contents }
-            .map { $0?.stringByReplacingOccurrencesOfString(" points", withString: "", options: .CaseInsensitiveSearch, range: nil) }
-            .map { Int($0 ?? "0") }
-      
-        let footersLinks = footers!.map { $0.xpath("a") }
-        let usernames = footersLinks.map { $0?[safe:0]?.contents }
-        let timeStrings = footers!.map { $0.xpath("span[@class='age']/a")?.first?.contents }
+            .map { $0.xpath("span[@class='score']")?.first?.contents
+                    .stringByReplacingOccurrencesOfString(" points", withString: "", options: .CaseInsensitiveSearch, range: nil).toInt()}
+        let footersLinks = footers!.map { return $0.xpath("a") }
+        let usernames = footersLinks.map { return $0?[safe:0]?.contents }
+        let timeStrings = footersLinks.map { return $0?[safe:1]?.contents }
         let postIDs = footersLinks
             .map { $0?[safe:1]?.xpath("@href")?.first?.contents }
             .map { s -> String? in
                 if let s = s {
-                    return s[8 ..< s.characters.count]
+                    return s[8 ..< count(s)]
                 }
                 return nil
             }
-      
         let commentCounts = footersLinks
-            .map { $0?[safe:1]?.contents }
-            .map { $0?.stringByReplacingOccurrencesOfString(" comments", withString: "", options: .CaseInsensitiveSearch, range: nil) }
-            .map { Int($0 ?? "0") }
-      
+            .map { $0?[safe:2]?.contents }
+            .map { $0?.stringByReplacingOccurrencesOfString(" comments", withString: "", options: .CaseInsensitiveSearch, range: nil).toInt() }
+        
         for i in 0..<footers!.count {
             let post = Post()
             post.postID = postIDs[i]
@@ -82,6 +77,6 @@ public struct PostsParser {
             posts.append(post)
         }
         
-        return Result.Success(posts)
+        return Result.success(posts)
     }
 }
