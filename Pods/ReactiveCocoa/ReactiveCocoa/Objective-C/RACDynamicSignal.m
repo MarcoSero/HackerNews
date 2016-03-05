@@ -7,7 +7,7 @@
 //
 
 #import "RACDynamicSignal.h"
-#import <ReactiveCocoa/EXTScope.h>
+#import "EXTScope.h"
 #import "RACCompoundDisposable.h"
 #import "RACPassthroughSubscriber.h"
 #import "RACScheduler+Private.h"

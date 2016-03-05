@@ -121,7 +121,7 @@ CGFloat const IntraButtonsPadding = 5;
 
 #pragma mark - Rotation
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+- (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
