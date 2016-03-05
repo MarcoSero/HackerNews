@@ -60,7 +60,7 @@ public struct PostsParser {
                 return nil
             }
         let commentCounts = footersLinks
-            .map { $0?[safe:2]?.contents }
+            .map { $0?[safe:1]?.contents }
             .map { $0?.stringByReplacingOccurrencesOfString(" comments", withString: "", options: .CaseInsensitiveSearch, range: nil).toInt() }
         
         for i in 0..<footers!.count {
