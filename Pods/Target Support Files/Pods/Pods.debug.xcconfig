@@ -1,9 +1,10 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_FRAMEWORK_BUILD_PATH" "$(PODS_ROOT)/Crashlytics" "$(PODS_ROOT)/Fabric"
+CLANG_CXX_LANGUAGE_STANDARD = c++11
+CLANG_CXX_LIBRARY = libc++
+EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$PODS_FRAMEWORK_BUILD_PATH/Box.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/CKComponentFadeTransition.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/ComponentKit.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Crashlytics.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/FXReachability.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Fabric.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Keys.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/ReactiveCocoa.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Result.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"z" -framework "Box" -framework "CKComponentFadeTransition" -framework "ComponentKit" -framework "Crashlytics" -framework "FXReachability" -framework "Fabric" -framework "Keys" -framework "ReactiveCocoa" -framework "Result" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"
-OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/Box.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/CKComponentFadeTransition.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ComponentKit.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/FXReachability.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ReactiveCocoa.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Result.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "Box" -framework "CKComponentFadeTransition" -framework "ComponentKit" -framework "FXReachability" -framework "ReactiveCocoa" -framework "Result"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
 PODS_ROOT = ${SRCROOT}/Pods

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		60E97F9E4182D7ADD8DD1648 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028B6BEBDCB78AD2899D9557 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		60E97F9E4182D7ADD8DD1648 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028B6BEBDCB78AD2899D9557 /* Pods.framework */; };
 		62DD20DF806198CD243F3459 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2AC9C566A2C5C124B89A /* Client.swift */; };
 		62DD21484B5F72D05F1CDDC8 /* UIViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2CA47C94E3B2AF4E378C /* UIViewController+Theming.m */; };
 		62DD23BA62197598FD72625C /* LoadPageComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = 62DD22387910363E4B802C38 /* LoadPageComponent.mm */; };
@@ -32,7 +32,7 @@
 		62DD2EA289B3E0465E0A1F7F /* UserInfoDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2BBC38BF6D1FB68B4C0C /* UserInfoDataProvider.m */; };
 		62DD2FB5C61C3A813FE91555 /* LabelImageBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 62DD20A08C03228B924A9B6D /* LabelImageBarButtonItem.m */; };
 		62DD2FB84F923CBE8BDDA23F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2616ACBFFC2E8587C9A2 /* Extensions.swift */; };
-		8DE6E576B53EB714A0FD880E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028B6BEBDCB78AD2899D9557 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8DE6E576B53EB714A0FD880E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028B6BEBDCB78AD2899D9557 /* Pods.framework */; };
 		A90C6FBE1B0337E700F54960 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A90C6FBD1B0337E700F54960 /* libxml2.dylib */; };
 		A90E14FF1ACC91CB003B5F1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A90E14FE1ACC91CB003B5F1E /* main.m */; };
 		A90E15021ACC91CB003B5F1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A90E15011ACC91CB003B5F1E /* AppDelegate.m */; };
@@ -495,7 +495,6 @@
 				A90E14F61ACC91CB003B5F1E /* Frameworks */,
 				A90E14F71ACC91CB003B5F1E /* Resources */,
 				8B2B1599C0A9905DEA134902 /* Copy Pods Resources */,
-				A95A7C231AFA4A25000F8346 /* Crashlytics */,
 				5C18BE6A2EE11F212D8321FD /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -678,20 +677,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
-		};
-		A95A7C231AFA4A25000F8346 /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Crashlytics;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = ./run_crashlytics.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 

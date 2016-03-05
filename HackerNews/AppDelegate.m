@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Marco Sero. All rights reserved.
 //
 
-#import <Crashlytics/Crashlytics.h>
-#import <Keys/Keys.h>
 #import "AppDelegate.h"
 #import "PostsCollectionViewController.h"
 #import "Theme.h"
@@ -24,8 +22,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [Crashlytics startWithAPIKey:[Keys new].crashlyticsKey];
-  
   self.theme = [[Theme alloc] init];
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
