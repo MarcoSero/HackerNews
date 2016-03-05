@@ -1,0 +1,6 @@
+framework module ComponentKit {
+  umbrella header "Pods-ComponentKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -44,7 +44,7 @@ import Foundation
     }
 }
 
-@objc public class Post: NSObject, CustomDebugStringConvertible {
+@objc public class Post: NSObject, Printable, DebugPrintable {
     
     public var postID: String?
     public var username: String?
@@ -83,7 +83,7 @@ import Foundation
 public extension Post {
     
     var isHackerNewsThread: Bool {
-        let isSpecialHackerNewsURL = URL?.absoluteString.hasPrefix("item?")
+        let isSpecialHackerNewsURL = URL?.absoluteString?.hasPrefix("item?")
         return URL?.host == HackerNewsURL.host ||
                 isSpecialHackerNewsURL == nil ||
                 isSpecialHackerNewsURL!

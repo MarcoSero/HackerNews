@@ -1,0 +1,6 @@
+framework module CKComponentFadeTransition {
+  umbrella header "Pods-CKComponentFadeTransition-umbrella.h"
+
+  export *
+  module * { export * }
+}
