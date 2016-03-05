@@ -84,6 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods/Box.framework"
   install_framework "Pods/CKComponentFadeTransition.framework"
   install_framework "Pods/ComponentKit.framework"
   install_framework "Pods/FXReachability.framework"
@@ -91,6 +92,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Result.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods/Box.framework"
   install_framework "Pods/CKComponentFadeTransition.framework"
   install_framework "Pods/ComponentKit.framework"
   install_framework "Pods/FXReachability.framework"

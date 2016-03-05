@@ -7,8 +7,8 @@
 //
 
 #import "NSObject+RACKVOWrapper.h"
-#import <ReactiveCocoa/EXTRuntimeExtensions.h>
-#import <ReactiveCocoa/EXTScope.h>
+#import "EXTRuntimeExtensions.h"
+#import "EXTScope.h"
 #import "NSObject+RACDeallocating.h"
 #import "NSString+RACKeyPathUtilities.h"
 #import "RACCompoundDisposable.h"
@@ -196,5 +196,18 @@
 		[selfDisposable removeDisposable:disposable];
 	}];
 }
+
+@end
+
+@implementation NSObject (RACKVOWrapperDeprecated)
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
+- (RACKVOTrampoline *)rac_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(RACKVOBlock)block {
+	return [[RACKVOTrampoline alloc] initWithTarget:self observer:observer keyPath:keyPath options:options block:block];
+}
+
+#pragma clang diagnostic pop
 
 @end

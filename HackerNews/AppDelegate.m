@@ -34,7 +34,7 @@
   
   [_window setRootViewController:navigationController];
   [_window makeKeyAndVisible];
-
+  
   return YES;
 }
 
