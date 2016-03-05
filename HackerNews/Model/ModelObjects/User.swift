@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class User: NSObject, CustomDebugStringConvertible {
+@objc public class User: NSObject, Printable, DebugPrintable {
     
     public var username: String?
     public var karma: Int = 0

@@ -1,9 +1,7 @@
-import Foundation
-
 /// Represents an action that will do some work when executed with a value of
-/// type `Input`, then return zero or more values of type `Output` and/or fail
-/// with an error of type `Error`. If no failure should be possible, NoError can
-/// be specified for the `Error` parameter.
+/// type `Input`, then return zero or more values of type `Output` and/or error
+/// out with an error of type `Error`. If no errors should be possible, NoError
+/// can be specified for the `Error` parameter.
 ///
 /// Actions enforce serial execution. Any attempt to execute an action multiple
 /// times concurrently will return an error.
@@ -30,28 +28,30 @@ public final class Action<Input, Output, Error: ErrorType> {
 	public let errors: Signal<Error, NoError>
 
 	/// Whether the action is currently executing.
-	public var executing: AnyProperty<Bool> {
-		return AnyProperty(_executing)
+	public var executing: PropertyOf<Bool> {
+		return PropertyOf(_executing)
 	}
 
 	private let _executing: MutableProperty<Bool> = MutableProperty(false)
 
 	/// Whether the action is currently enabled.
-	public var enabled: AnyProperty<Bool> {
-		return AnyProperty(_enabled)
+	public var enabled: PropertyOf<Bool> {
+		return PropertyOf(_enabled)
 	}
 
 	private let _enabled: MutableProperty<Bool> = MutableProperty(false)
 
 	/// Whether the instantiator of this action wants it to be enabled.
-	private let userEnabled: AnyProperty<Bool>
+	private let userEnabled: PropertyOf<Bool>
 
-	/// Lazy creation and storage of a UI bindable `CocoaAction`. The default behavior
+	/// Lazy creation and storage of a UI bindable `CocoaAction``. The default behavior
 	/// force casts the AnyObject? input to match the action's `Input` type. This makes
-	/// it unsafe for use when the action is parameterized for something like `Void`
+	/// it unsafe for use when the action is paramerterized for something like `Void`
 	/// input. In those cases, explicitly assign a value to this property that transforms
 	/// the input to suit your needs.
-	public lazy var unsafeCocoaAction: CocoaAction = CocoaAction(self) { $0 as! Input }
+	public lazy var unsafeCocoaAction: CocoaAction = { _ in
+		CocoaAction(self) { $0 as! Input }
+	}()
 
 	/// This queue is used for read-modify-write operations on the `_executing`
 	/// property.
@@ -59,7 +59,7 @@ public final class Action<Input, Output, Error: ErrorType> {
 
 	/// Whether the action should be enabled for the given combination of user
 	/// enabledness and executing status.
-	private static func shouldBeEnabled(userEnabled userEnabled: Bool, executing: Bool) -> Bool {
+	private static func shouldBeEnabled(#userEnabled: Bool, executing: Bool) -> Bool {
 		return userEnabled && !executing
 	}
 
@@ -67,16 +67,16 @@ public final class Action<Input, Output, Error: ErrorType> {
 	/// SignalProducer for each input.
 	public init<P: PropertyType where P.Value == Bool>(enabledIf: P, _ execute: Input -> SignalProducer<Output, Error>) {
 		executeClosure = execute
-		userEnabled = AnyProperty(enabledIf)
+		userEnabled = PropertyOf(enabledIf)
 
 		(events, eventsObserver) = Signal<Event<Output, Error>, NoError>.pipe()
 
-		values = events.map { $0.value }.ignoreNil()
-		errors = events.map { $0.error }.ignoreNil()
+		values = events |> map { $0.value } |> ignoreNil
+		errors = events |> map { $0.error } |> ignoreNil
 
 		_enabled <~ enabledIf.producer
-			.combineLatestWith(executing.producer)
-			.map(Action.shouldBeEnabled)
+			|> combineLatestWith(executing.producer)
+			|> map(Action.shouldBeEnabled)
 	}
 
 	/// Initializes an action that will be enabled by default, and create a
@@ -86,7 +86,7 @@ public final class Action<Input, Output, Error: ErrorType> {
 	}
 
 	deinit {
-		eventsObserver.sendCompleted()
+		sendCompleted(eventsObserver)
 	}
 
 	/// Creates a SignalProducer that, when started, will execute the action
@@ -95,7 +95,6 @@ public final class Action<Input, Output, Error: ErrorType> {
 	/// If the action is disabled when the returned SignalProducer is started,
 	/// the produced signal will send `ActionError.NotEnabled`, and nothing will
 	/// be sent upon `values` or `errors` for that particular signal.
-	@warn_unused_result(message="Did you forget to call `start` on the producer?")
 	public func apply(input: Input) -> SignalProducer<Output, ActionError<Error>> {
 		return SignalProducer { observer, disposable in
 			var startedExecuting = false
@@ -108,17 +107,17 @@ public final class Action<Input, Output, Error: ErrorType> {
 			}
 
 			if !startedExecuting {
-				observer.sendFailed(.NotEnabled)
+				sendError(observer, .NotEnabled)
 				return
 			}
 
 			self.executeClosure(input).startWithSignal { signal, signalDisposable in
 				disposable.addDisposable(signalDisposable)
 
-				signal.observe { event in
-					observer.action(event.mapError { .ProducerError($0) })
-					self.eventsObserver.sendNext(event)
-				}
+				signal.observe(Signal.Observer { event in
+					observer.put(event.mapError { .ProducerError($0) })
+					sendNext(self.eventsObserver, event)
+				})
 			}
 
 			disposable.addDisposable {
@@ -167,20 +166,20 @@ public final class CocoaAction: NSObject {
 		super.init()
 
 		disposable += action.enabled.producer
-			.observeOn(UIScheduler())
-			.startWithNext { [weak self] value in
+			|> observeOn(UIScheduler())
+			|> start(next: { [weak self] value in
 				self?.willChangeValueForKey("enabled")
 				self?._enabled = value
 				self?.didChangeValueForKey("enabled")
-			}
+			})
 
 		disposable += action.executing.producer
-			.observeOn(UIScheduler())
-			.startWithNext { [weak self] value in
+			|> observeOn(UIScheduler())
+			|> start(next: { [weak self] value in
 				self?.willChangeValueForKey("executing")
 				self?._executing = value
 				self?.didChangeValueForKey("executing")
-			}
+			})
 	}
 
 	/// Initializes a Cocoa action that will invoke the given Action by
@@ -204,18 +203,44 @@ public final class CocoaAction: NSObject {
 	}
 }
 
-/// The type of error that can occur from Action.apply, where `Error` is the type of
+/// The type of error that can occur from Action.apply, where `E` is the type of
 /// error that can be generated by the specific Action instance.
-public enum ActionError<Error: ErrorType>: ErrorType {
+public enum ActionError<E: ErrorType> {
 	/// The producer returned from apply() was started while the Action was
 	/// disabled.
 	case NotEnabled
 
 	/// The producer returned from apply() sent the given error.
-	case ProducerError(Error)
+	case ProducerError(E)
 }
 
-public func == <Error: Equatable>(lhs: ActionError<Error>, rhs: ActionError<Error>) -> Bool {
+extension ActionError: ErrorType {
+	public var nsError: NSError {
+		switch self {
+		case .NotEnabled:
+			return NSError(domain: "org.reactivecocoa.ReactiveCocoa.Action", code: 1, userInfo: [
+				NSLocalizedDescriptionKey: self.description
+			])
+
+		case let .ProducerError(error):
+			return error.nsError
+		}
+	}
+}
+
+extension ActionError: Printable {
+	public var description: String {
+		switch self {
+		case .NotEnabled:
+			return "Action executed while disabled"
+
+		case let .ProducerError(error):
+			return toString(error)
+		}
+	}
+}
+
+public func == <E: Equatable>(lhs: ActionError<E>, rhs: ActionError<E>) -> Bool {
 	switch (lhs, rhs) {
 	case (.NotEnabled, .NotEnabled):
 		return true

@@ -1,0 +1,1 @@
+../../../ComponentKit/ComponentTextKit/TextKit/CKTextKitTailTruncater.h

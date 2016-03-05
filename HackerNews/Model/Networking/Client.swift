@@ -13,9 +13,9 @@ import FXReachability
 
 func stringFromData(data: NSData) -> Result<String, NSError> {
     if let s = NSString(data: data, encoding: NSUTF8StringEncoding) as? String {
-        return Result.Success(s)
+        return Result.success(s)
     }
-    return Result.Failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [ NSLocalizedDescriptionKey: "Can't get string from data" ]))
+    return Result.failure(NSError(domain: "com.marcosero.HackerNews", code: 1, userInfo: [ NSLocalizedDescriptionKey: "Can't get string from data" ]))
 }
 
 typealias HtmlParser = String -> Result<NSObject, NSError>
@@ -25,7 +25,7 @@ let HackerNewsURL = NSURL(string: "https://news.ycombinator.com")!
 @objc public class Client: NSObject {
     
     let scheduler = RACScheduler(priority: RACSchedulerPriorityBackground)
-    let baseURL = HackerNewsURL.absoluteString
+    let baseURL = HackerNewsURL.absoluteString!
     
     public var reachabilitySignal: RACSignal {
         let reachability = FXReachability.sharedInstance()
@@ -45,7 +45,7 @@ let HackerNewsURL = NSURL(string: "https://news.ycombinator.com")!
             let URL = NSURL(string: "\(baseURL)/\(newType.httpPath())?p=\(page)")!
             let parser: HtmlParser = PostsParser.fromHTML(postsType: newType)
             let signalProducer = getHTMLFromURL(URL, parseHtml: parser)
-            return signalProducer.toRACSignal()
+            return toRACSignal(signalProducer)
         }
         return nil
     }
@@ -54,23 +54,23 @@ let HackerNewsURL = NSURL(string: "https://news.ycombinator.com")!
         let URL = NSURL(string: "\(baseURL)/item?id=\(post.postID!)")!
         let parser = CommentsParser.fromHTML(commentCount: post.commentCount)
         let signalProducer = getHTMLFromURL(URL, parseHtml: parser)
-        return signalProducer.toRACSignal()
+        return toRACSignal(signalProducer)
     }
     
     public func getUserWithUsername(username: String) -> RACSignal {
         let URL = NSURL(string: "\(baseURL)/user?id=\(username)")!
         let signalProducer = getHTMLFromURL(URL, parseHtml: UserParser.fromHTML)
-        return signalProducer.toRACSignal()
+        return toRACSignal(signalProducer)
     }
     
     // MARK - Private
     
     func getHTMLFromURL(URL: NSURL, parseHtml: HtmlParser) -> SignalProducer<NSObject, NSError> {
         let request = NSURLRequest(URL: URL)
-        return NSURLSession.sharedSession().rac_dataWithRequest(request)
-            .map { data, _ in data }
-            .attemptMap(stringFromData)
-            .attemptMap(parseHtml)
-  }
-  
+        return NSURLSession.sharedSession().rac_dataWithRequest(NSURLRequest(URL: URL))
+            |> map { data, _ in data } // ignore NSURLResponse
+            |> tryMap(stringFromData)
+            |> tryMap(parseHtml)
+    }
+    
 }

@@ -15,8 +15,8 @@ func ConvXmlCharToString(str: UnsafePointer<xmlChar>) -> String! {
 
 func rawContentsOfNode(node : xmlNode, pointer: xmlNodePtr) -> String! {
     var result : String?
-    let xmlBuffer = xmlBufferCreateSize(DUMP_BUFFER_SIZE)
-    let outputBuffer : xmlOutputBufferPtr = xmlOutputBufferCreateBuffer(xmlBuffer, nil)
+    var xmlBuffer = xmlBufferCreateSize(DUMP_BUFFER_SIZE)
+    var outputBuffer : xmlOutputBufferPtr = xmlOutputBufferCreateBuffer(xmlBuffer, nil)
     
     let document = node.doc
     
@@ -73,15 +73,15 @@ public class HTMLParser {
     public init(html: String, encoding: UInt, option: CInt, inout error: NSError?) {
         if html.lengthOfBytesUsingEncoding(encoding) > 0 {
             self.htmlString = html
-            let cfenc : CFStringEncoding = CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)
-            let cfencstr : CFStringRef   = CFStringConvertEncodingToIANACharSetName(cfenc)
+            var cfenc : CFStringEncoding = CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)
+            var cfencstr : CFStringRef   = CFStringConvertEncodingToIANACharSetName(cfenc)
             
-            let cur : [CChar]? = html.cStringUsingEncoding(NSUTF8StringEncoding)
-            let url : String = ""
-            let enc = CFStringGetCStringPtr(cfencstr, 0)
+            var cur : [CChar]? = html.cStringUsingEncoding(NSUTF8StringEncoding)
+            var url : String = ""
+            var enc = CFStringGetCStringPtr(cfencstr, 0)
             let optionHtml : CInt = option
             
-            if let ucur = cur {
+            if var ucur = cur {
                 _doc = htmlReadDoc(UnsafePointer<CUnsignedChar>(ucur), url, enc, optionHtml)
                 rootNode  = HTMLNode(doc: _doc)
             } else {

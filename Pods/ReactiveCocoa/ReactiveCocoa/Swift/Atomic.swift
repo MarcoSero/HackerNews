@@ -6,15 +6,13 @@
 //  Copyright (c) 2014 GitHub. All rights reserved.
 //
 
-import Foundation
-
 /// An atomic variable.
-public final class Atomic<Value> {
-	private var spinLock = OS_SPINLOCK_INIT
-	private var _value: Value
+internal final class Atomic<T> {
+	private var spinlock = OS_SPINLOCK_INIT
+	private var _value: T
 	
 	/// Atomically gets or sets the value of the variable.
-	public var value: Value {
+	var value: T {
 		get {
 			lock()
 			let v = _value
@@ -31,34 +29,34 @@ public final class Atomic<Value> {
 	}
 	
 	/// Initializes the variable with the given initial value.
-	public init(_ value: Value) {
+	init(_ value: T) {
 		_value = value
 	}
 	
 	private func lock() {
-		OSSpinLockLock(&spinLock)
+		withUnsafeMutablePointer(&spinlock, OSSpinLockLock)
 	}
 	
 	private func unlock() {
-		OSSpinLockUnlock(&spinLock)
+		withUnsafeMutablePointer(&spinlock, OSSpinLockUnlock)
 	}
 	
 	/// Atomically replaces the contents of the variable.
 	///
 	/// Returns the old value.
-	public func swap(newValue: Value) -> Value {
+	func swap(newValue: T) -> T {
 		return modify { _ in newValue }
 	}
 
 	/// Atomically modifies the variable.
 	///
 	/// Returns the old value.
-	public func modify(@noescape action: (Value) throws -> Value) rethrows -> Value {
+	func modify(@noescape action: T -> T) -> T {
 		lock()
-		defer { unlock() }
-
 		let oldValue = _value
-		_value = try action(_value)
+		_value = action(_value)
+		unlock()
+		
 		return oldValue
 	}
 	
@@ -66,10 +64,11 @@ public final class Atomic<Value> {
 	/// variable.
 	///
 	/// Returns the result of the action.
-	public func withValue<Result>(@noescape action: (Value) throws -> Result) rethrows -> Result {
+	func withValue<U>(@noescape action: T -> U) -> U {
 		lock()
-		defer { unlock() }
-
-		return try action(_value)
+		let result = action(_value)
+		unlock()
+		
+		return result
 	}
 }

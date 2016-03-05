@@ -1,32 +1,54 @@
 PODS:
+  - Box (1.2.2)
   - CKComponentFadeTransition (0.0.1):
     - ComponentKit
   - ComponentKit (0.11)
+  - Crashlytics (3.1.0)
+  - Fabric (1.2.8):
+    - Fabric/Base (= 1.2.8)
+  - Fabric/Base (1.2.8)
   - FXReachability (1.3.1)
-  - ReactiveCocoa (4.0.0-RC.1):
-    - ReactiveCocoa/UI (= 4.0.0-RC.1)
-    - Result (~> 1.0)
-  - ReactiveCocoa/Core (4.0.0-RC.1):
+  - Keys (1.0.0)
+  - ReactiveCocoa (3.0-RC.1):
+    - Box (~> 1.2.0)
+    - ReactiveCocoa/UI (= 3.0-RC.1)
+    - Result (~> 0.4.1)
+  - ReactiveCocoa/Core (3.0-RC.1):
+    - Box (~> 1.2.0)
     - ReactiveCocoa/no-arc
-    - Result (~> 1.0)
-  - ReactiveCocoa/no-arc (4.0.0-RC.1):
-    - Result (~> 1.0)
-  - ReactiveCocoa/UI (4.0.0-RC.1):
+    - Result (~> 0.4.1)
+  - ReactiveCocoa/no-arc (3.0-RC.1):
+    - Box (~> 1.2.0)
+    - Result (~> 0.4.1)
+  - ReactiveCocoa/UI (3.0-RC.1):
+    - Box (~> 1.2.0)
     - ReactiveCocoa/Core
-    - Result (~> 1.0)
-  - Result (1.0.1)
+    - Result (~> 0.4.1)
+  - Result (0.4.4):
+    - Box (~> 1.2)
 
 DEPENDENCIES:
   - CKComponentFadeTransition
   - ComponentKit (= 0.11)
+  - Crashlytics
+  - Fabric
   - FXReachability
-  - ReactiveCocoa (= 4.0.0-RC.1)
+  - Keys (from `Pods/CocoaPodsKeys`)
+  - ReactiveCocoa (= 3.0-RC.1)
+
+EXTERNAL SOURCES:
+  Keys:
+    :path: Pods/CocoaPodsKeys
 
 SPEC CHECKSUMS:
+  Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CKComponentFadeTransition: 12bb3409ab8161bd7287b43e982cebabe2b5ac1c
   ComponentKit: 66ee65df1df9983b689cb7df15d9fe59a1a03903
+  Crashlytics: ef9a58a4e806b316a1748c06432f6f847ba09ac6
+  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   FXReachability: 1d9a83617474f2a4e1b53c11a13ec4337428c126
-  ReactiveCocoa: 2b0f654beb7642b82cfd3fdb845205ae9889422c
-  Result: caef80340451e1f07492fa1e89117f83613bce24
+  Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
+  ReactiveCocoa: c85fe01be4e047dc1d9fba3e1e0b7070846d3296
+  Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.37.2
